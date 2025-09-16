@@ -1,0 +1,200 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game Crafter{% endblock %}
+
+{% block body %}
+
+<header class="">
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex"></div>
+        
+        <div class="d-flex flex-column align-items-center">
+            <div class="logo001 mb-3">
+                <img src="{{asset("image/Aether core logo.png")}}" alt="logo">
+            </div>
+            
+            <div class="fs-2 d-flex gap-3 align-items-center">
+                <p class="acceuil mb-0">
+                    Acceuil
+                </p>
+                 <p class="hardware mb-0">
+                    - Hardware
+                </p>
+                <p class="Jeux mb-0">
+                    - Jeux
+                </p>
+                <p class="Avis mb-0">
+                    - Avis
+                </p>
+            </div>
+        </div>
+
+        <div class="google-translate-container d-flex justify-content-end align-self-start mt-3 me-3">
+            <div id="google_translate_element"></div>
+        </div> 
+    </div>
+
+    <br><br>
+    <div class="d-flex gap-2 justify-content-md-end">
+        <a href="#" class="btn btn-info">Contact</a>
+        <a href="#" class="btn btn-success">S'inscrire</a>
+        <a href="#" class="btn btn-warning ">Connexion</a>
+    </div>
+    <br><br>
+    <p>
+    <strong>Votre PC est-il prêt pour l'aventure ?</strong>
+    Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong> <br> <br>
+
+    <strong>Comment ça marche ?</strong> <br><br> Entrez vos composants, c'est tout. <br>
+    <br>
+    <strong>Configurez votre PC :</strong> Entrez manuellement les trois éléments clés de votre configuration : <strong>votre carte graphique, votre processeur et la quantité de RAM</strong>. Notre base de données vous aide à trouver vos composants en un instant.
+
+    <strong>Trouvez votre jeu :</strong> Parcourez notre catalogue immense ou utilisez la barre de recherche pour trouver le jeu que vous convoitez.
+
+    <strong>Vérifiez la compatibilité :</strong> Obtenez une analyse claire et immédiate. Nous comparons votre configuration avec les exigences du jeu pour vous dire si vous pourrez y jouer, et à quels réglages.
+
+    Plus qu'une simple vérification
+    <strong>Estimation des FPS :</strong> Nous vous donnons une estimation précise du nombre de FPS que vous pouvez attendre avec votre PC, pour les paramètres graphiques faibles, moyens et ultra.
+
+    <strong>Conseils de mise à niveau :</strong> Si un jeu est trop gourmand pour votre machine, nous vous recommandons le composant précis à améliorer pour atteindre vos objectifs de performance.
+
+    <strong>Guides d'optimisation :</strong> Apprenez à ajuster vos paramètres graphiques pour maximiser votre expérience de jeu, sans avoir besoin de faire une mise à jour matérielle coûteuse.
+
+    <strong>Aether core est l'outil indispensable de la communauté PC.</strong> Nous vous donnons le pouvoir de faire le bon choix, en toute connaissance de cause.
+    </p>
+
+    <div class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Rechercher un jeu..." aria-label="Rechercher un jeu">
+                    <button class="btn btn-info" type="button">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-success">Aether core</h1>
+            <p class="lead text-white-50">Votre PC est-il prêt pour l'aventure ?</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card bg-dark text-white shadow-lg p-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center text-success mb-4">Configurez votre PC et trouvez votre jeu</h2>
+                        <p class="text-center text-white-50">Entrez manuellement les quatres éléments clés de votre configuration : votre carte graphique, votre processeur, la quantité de RAM et votre résolution. Notre base de données vous aide à trouver vos composants en un instant.</p>
+                        <form>
+                            <div class="accordion" id="accordionConfig">
+                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
+                                    <h2 class="accordion-header" id="headingCPU">
+                                        <button class="accordion-button bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCPU" aria-expanded="true" aria-controls="collapseCPU">
+                                            <i class="fas fa-microchip me-2"></i> Processeur
+                                        </button>
+                                    </h2>
+                                    <div id="collapseCPU" class="accordion-collapse collapse show" aria-labelledby="headingCPU" data-bs-parent="#accordionConfig">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="cpu" class="form-label">Nom du processeur :</label>
+                                                <input type="text" class="form-control bg-dark text-white border-0" id="cpu" name="cpu" placeholder="Ex: Intel Core i7-12700K" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
+                                    <h2 class="accordion-header" id="headingGPU">
+                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGPU" aria-expanded="false" aria-controls="collapseGPU">
+                                            <i class="fas fa-desktop me-2"></i> Carte graphique
+                                        </button>
+                                    </h2>
+                                    <div id="collapseGPU" class="accordion-collapse collapse" aria-labelledby="headingGPU" data-bs-parent="#accordionConfig">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="gpu" class="form-label">Nom de la carte graphique :</label>
+                                                <input type="text" class="form-control bg-dark text-white border-0" id="gpu" name="gpu" placeholder="Ex: NVIDIA GeForce RTX 3080" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
+                                    <h2 class="accordion-header" id="headingRAM">
+                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRAM" aria-expanded="false" aria-controls="collapseRAM">
+                                            <i class="fas fa-memory me-2"></i> Mémoire RAM
+                                        </button>
+                                    </h2>
+                                    <div id="collapseRAM" class="accordion-collapse collapse" aria-labelledby="headingRAM" data-bs-parent="#accordionConfig">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="ram" class="form-label">Quantité de RAM (en Go) :</label>
+                                                <input type="number" class="form-control bg-dark text-white border-0" id="ram" name="ram" placeholder="Ex: 16" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
+                                    <h2 class="accordion-header" id="headingResolution">
+                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResolution" aria-expanded="false" aria-controls="collapseResolution">
+                                            <i class="fas fa-tv me-2"></i> Résolution d'écran
+                                        </button>
+                                    </h2>
+                                    <div id="collapseResolution" class="accordion-collapse collapse" aria-labelledby="headingResolution" data-bs-parent="#accordionConfig">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="resolution" class="form-label">Sélectionnez la résolution :</label>
+                                                <select class="form-select bg-dark text-white border-0" id="resolution" name="resolution" required>
+                                                    <option value="1080p">1080p (Full HD)</option>
+                                                    <option value="1440p">1440p (QHD)</option>
+                                                    <option value="4k">4K (UHD)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
+                                    <h2 class="accordion-header" id="headingJeu">
+                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJeu" aria-expanded="false" aria-controls="collapseJeu">
+                                            <i class="fas fa-gamepad me-2"></i> Jeu
+                                        </button>
+                                    </h2>
+                                    <div id="collapseJeu" class="accordion-collapse collapse" aria-labelledby="headingJeu" data-bs-parent="#accordionConfig">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="jeu" class="form-label">Nom du jeu :</label>
+                                                <input type="text" class="form-control bg-dark text-white border-0" id="jeu" name="jeu" placeholder="Recherchez un jeu..." required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-chart-line me-2"></i> Vérifier la compatibilité
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-4">
+        <p class="text-white-50">Aether core est l'outil indispensable de la communauté PC.</p>
+    </footer>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+{% endblock %}
