@@ -6,7 +6,7 @@
 
 <header class="">
     <div class="logo001 d-flex justify-content-center">
-        <img src="{{asset("image/Aether core logo.png")}}" alt="logo">
+            <img src="{{asset("image/Game_Crafter01.png")}}" alt="logo">
     </div>
 
 <div class=" d-flex justify-content-center fs-2 d-flex gap-3 align-items-center">
@@ -37,12 +37,9 @@
         <div class="col-lg-10">
             <div class="card bg-dark text-white shadow-lg p-4">
                 <div class="card-body">
-                    <h1 class="card-title text-center text-success mb-4 display-4 fw-bold">Configurateur PC</h1>
-                    <p class="text-center text-white-50 lead">
-                        Entrez les détails de votre PC et choisissez un jeu pour évaluer sa performance.
-                    </p>
+                    <h2 class="card-title text-center text-success mb-4">Configurez votre PC et trouvez votre jeu</h2>
+                    <p class="text-center text-white-50">Entrez manuellement les trois éléments clés de votre configuration : votre carte graphique, votre processeur et la quantité de RAM. Notre base de données exhaustive vous aide à trouver vos composants en un instant.</p>
 
-                    <form action="#" method="post" id="configurator-form">
                         <div class="accordion" id="accordionConfig">
                             
                             <div class="accordion-item bg-secondary text-white border-dark mb-3">
@@ -88,27 +85,6 @@
                                         <div class="mb-3">
                                             <label for="ram" class="form-label">Quantité de RAM (en Go) :</label>
                                             <input type="number" class="form-control bg-dark text-white border-0" id="ram" name="ram" placeholder="Ex: 16" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                <h2 class="accordion-header" id="headingResolution">
-                                    <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResolution" aria-expanded="false" aria-controls="collapseResolution">
-                                        <i class="fas fa-tv me-2"></i> 4. Résolution d'écran
-                                    </button>
-                                </h2>
-                                <div id="collapseResolution" class="accordion-collapse collapse" aria-labelledby="headingResolution" data-bs-parent="#accordionConfig">
-                                    <div class="accordion-body">
-                                        <div class="mb-3">
-                                            <label for="resolution" class="form-label">Sélectionnez la résolution :</label>
-                                            <select class="form-select bg-dark text-white border-0" id="resolution" name="resolution" required>
-                                                <option value="" disabled selected>-- Choisissez une résolution --</option>
-                                                <option value="1080p">1080p (Full HD)</option>
-                                                <option value="1440p">1440p (QHD)</option>
-                                                <option value="4k">4K (UHD)</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
