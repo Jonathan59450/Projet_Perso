@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hardware - Aether Core{% endblock %}
+
+{% block body %}
+
+<main class="container my-5">
+    <div class="text-center mb-5">
+        <div class="d-flex justify-content-center align-items-center mb-4">
+            <div class="logo001 me-3">
+                <img src="{{ asset('image/Aether core logo.png') }}" alt="logo">
+            </div>
+            <div class="fs-2 d-flex gap-3 align-items-center">
+                <a href="#" class="acceuil text-decoration-none text-white-50">Accueil</a>
+                <span class="text-white">-</span>
+                <a href="#" class="hardware text-decoration-none text-white">Hardware</a>
+                <span class="text-white-50">-</span>
+                <a href="#" class="Jeux text-decoration-none text-white-50">Jeux</a>
+                <span class="text-white-50">-</span>
+                <a href="#" class="Avis text-decoration-none text-white-50">Avis</a>
+            </div>
+        </div>
+        
+        <h1 class="display-5 fw-bold text-success mt-4">Composants Hardware</h1>
+        <p class="lead text-white-50">Explorez notre base de données de composants et trouvez les informations essentielles.</p>
+    </div>
+
+    {# Formulaire de recherche dynamique #}
+    <div class="row justify-content-center my-4">
+        <div class="col-lg-8">
+            <form method="get" action="{{ path('app_hardware') }}">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control bg-light text-dark border-0" placeholder="Rechercher un composant..." aria-label="Rechercher un composant" name="q">
+                    <button class="btn btn-success" type="submit">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <section class="mt-5">
+        <h2 class="mb-4 text-info">Cartes Graphiques (GPU)</h2>
+        <div class="row g-4">
+            {% for gpu in gpus %}
+                <div class="col-12 col-md-6">
+                    <div class="bg-dark p-4 rounded-3 shadow-sm">
+                        <h3 class="h5 fw-bold text-white mb-2">{{ gpu.name }}</h3>
+                        <p class="text-white-50 mb-2">{{ gpu.description }}</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-memory me-2 text-info"></i>VRAM :</span>
+                                <span class="fw-bold text-white">{{ gpu.vram }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-microchip me-2 text-info"></i>Interface :</span>
+                                <span class="fw-bold text-white">{{ gpu.interface }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-bolt me-2 text-info"></i>TDP :</span>
+                                <span class="fw-bold text-white">{{ gpu.tdp }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr class="my-5 bg-white-50">
+
+    <section>
+        <h2 class="mb-4 text-info">Processeurs (CPU)</h2>
+        <div class="row g-4">
+            {% for cpu in cpus %}
+                <div class="col-12 col-md-6">
+                    <div class="bg-dark p-4 rounded-3 shadow-sm">
+                        <h3 class="h5 fw-bold text-white mb-2">{{ cpu.name }}</h3>
+                        <p class="text-white-50 mb-2">{{ cpu.description }}</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-cogs me-2 text-info"></i>Cœurs :</span>
+                                <span class="fw-bold text-white">{{ cpu.cores }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-stream me-2 text-info"></i>Threads :</span>
+                                <span class="fw-bold text-white">{{ cpu.threads }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between text-white-50">
+                                <span><i class="fas fa-tachometer-alt me-2 text-info"></i>Fréquence Max :</span>
+                                <span class="fw-bold text-white">{{ cpu.frequency }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}
