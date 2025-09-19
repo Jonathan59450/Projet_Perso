@@ -54,8 +54,8 @@
             const cards = document.querySelectorAll('.config-card');
             
             cards.forEach(card => {
-                const cardText = card.textContent.toLowerCase();
-                if (cardText.includes(searchTerm)) {
+                const cardText = card.textContent.toLowerCase().replace(/\s+/g, '');
+                if (cardText.includes(searchTerm.toLowerCase().replace(/\s+/g, ''))) {
                     card.style.display = 'block'; 
                 } else {
                     card.style.display = 'none';
@@ -64,84 +64,5 @@
         });
     </script>
 
-
-{% include '_partials/_header.html.twig' %}
-
-<h1>Cartes Graphiques (GPU)</h1>
-
-<h2>NVIDIA GeForce</h2>
-<div class="card-container">
-    {% for gpu in configurations.nvidia %}
-        <div class="card">
-            <div class="card-content">
-                <h3>{{ gpu.name }}</h3>
-                <p>{{ gpu.description }}</p>
-                <ul>
-                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
-                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
-                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
-                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
-                    
-                </ul>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<h2>AMD Radeon</h2>
-<div class="card-container">
-     {% for gpu in configurations.amd %}
-        <div class="card">
-            <div class="card-content">
-                <h3>{{ gpu.name }}</h3>
-                <p>{{ gpu.description }}</p>
-                <ul>
-                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
-                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
-                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
-                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
-                    
-                </ul>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<h2>Intel Arc</h2>
-<div class="card-container">
- {% for gpu in configurations.intel %}
-        <div class="card">
-            <div class="card-content">
-                <h3>{{ gpu.name }}</h3>
-                <p>{{ gpu.description }}</p>
-                <ul>
-                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
-                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
-                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
-                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
-                    
-                </ul>
-            </div>
-        </div>
-    {% endfor %}
-        
-</div>
-{# 
-<h1>Processeurs (CPU)</h1>
-<div class="card-container">
-    {% for cpu in cpus %}
-        <div class="card">
-            <div class="card-content">
-                <h3>{{ cpu.name }}</h3>
-                <p>{{ cpu.description }}</p>
-                <ul>
-                    <li><strong>Cores:</strong> {{ cpu.cores }}</li>
-                    <li><strong>Threads:</strong> {{ cpu.threads }}</li>
-                    <li><strong>Fréquence:</strong> {{ cpu.frequency }}</li>
-                </ul>
-            </div>
-        </div>
-    {% endfor %}
-</div> #}
 
 {% endblock %}
