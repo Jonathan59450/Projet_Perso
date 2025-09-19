@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Configurations PC{% endblock %}
 {% block body %}
     <div class="container my-5">
@@ -63,4 +64,82 @@
             });
         });
     </script>
+=======
+{% block title %}Matériel Informatique{% endblock %}
+
+{% block body %}
+
+{% include '_partials/_header.html.twig' %}
+
+<h1>Cartes Graphiques (GPU)</h1>
+
+<h2>NVIDIA GeForce</h2>
+<div class="card-container">
+    {% for gpu in gpus.nvidia %}
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ gpu.name }}</h3>
+                <p>{{ gpu.description }}</p>
+                <ul>
+                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
+                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
+                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<h2>AMD Radeon</h2>
+<div class="card-container">
+    {% for gpu in gpus.amd %}
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ gpu.name }}</h3>
+                <p>{{ gpu.description }}</p>
+                <ul>
+                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
+                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
+                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<h2>Intel Arc</h2>
+<div class="card-container">
+    {% for gpu in gpus.intel %}
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ gpu.name }}</h3>
+                <p>{{ gpu.description }}</p>
+                <ul>
+                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
+                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
+                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<h1>Processeurs (CPU)</h1>
+<div class="card-container">
+    {% for cpu in cpus %}
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ cpu.name }}</h3>
+                <p>{{ cpu.description }}</p>
+                <ul>
+                    <li><strong>Cores:</strong> {{ cpu.cores }}</li>
+                    <li><strong>Threads:</strong> {{ cpu.threads }}</li>
+                    <li><strong>Fréquence:</strong> {{ cpu.frequency }}</li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+>>>>>>> c29dc819b1cb16c9f0f180abf2cce05f05ebefcc
 {% endblock %}
