@@ -71,15 +71,17 @@
 
 <h2>NVIDIA GeForce</h2>
 <div class="card-container">
-    {% for gpu in gpus.nvidia %}
+    {% for gpu in configurations.nvidia %}
         <div class="card">
             <div class="card-content">
                 <h3>{{ gpu.name }}</h3>
                 <p>{{ gpu.description }}</p>
                 <ul>
-                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
-                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
-                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
+                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
+                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
+                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
+                    
                 </ul>
             </div>
         </div>
@@ -88,15 +90,17 @@
 
 <h2>AMD Radeon</h2>
 <div class="card-container">
-    {% for gpu in gpus.amd %}
+     {% for gpu in configurations.amd %}
         <div class="card">
             <div class="card-content">
                 <h3>{{ gpu.name }}</h3>
                 <p>{{ gpu.description }}</p>
                 <ul>
-                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
-                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
-                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
+                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
+                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
+                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
+                    
                 </ul>
             </div>
         </div>
@@ -105,21 +109,24 @@
 
 <h2>Intel Arc</h2>
 <div class="card-container">
-    {% for gpu in gpus.intel %}
+ {% for gpu in configurations.intel %}
         <div class="card">
             <div class="card-content">
                 <h3>{{ gpu.name }}</h3>
                 <p>{{ gpu.description }}</p>
                 <ul>
-                    <li><strong>VRAM:</strong> {{ gpu.vram }}</li>
-                    <li><strong>Interface:</strong> {{ gpu.interface }}</li>
-                    <li><strong>TDP:</strong> {{ gpu.tdp }}</li>
+                    <li><strong>RAM:</strong> {{ gpu.components.ram }}</li>
+                    <li><strong>CPU:</strong> {{ gpu.components.cpu }}</li>
+                    <li><strong>gpu:</strong> {{ gpu.components.gpu }}</li>
+                    <li><strong>Resolution:</strong> {{ gpu.components.resolution }}</li>
+                    
                 </ul>
             </div>
         </div>
     {% endfor %}
+        
 </div>
-
+{# 
 <h1>Processeurs (CPU)</h1>
 <div class="card-container">
     {% for cpu in cpus %}
@@ -135,6 +142,6 @@
             </div>
         </div>
     {% endfor %}
-</div>
+</div> #}
 
 {% endblock %}
