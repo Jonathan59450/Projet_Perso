@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Configurations PC{% endblock %}
+{% block body %}
+    <div class="container my-5">
+        <h1 class="text-center fw-bold mb-5">Configurations Officielles</h1>
+        <p class="text-center text-white-50">Découvrez nos suggestions de configurations PC, adaptées à divers budgets et besoins, pour profiter pleinement de vos jeux.</p>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par GPU, CPU, RAM ou Résolution...">
+                    <button class="btn btn-info" id="searchBtn">Rechercher</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hardware-container" id="hardware-container">
+            {% for brand, configs in configurations %}
+                <h2 class="text-center text-success mt-5 mb-4 fw-bold text-uppercase">{{ brand }}</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+                    {% for config in configs %}
+                        <div class="col config-card">
+                            <div class="card h-100 bg-dark text-white shadow-lg p-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success fw-bold">{{ config.name }}</h5>
+                                    <p class="card-text text-white-50">{{ config.description }}</p>
+                                    <ul class="list-group list-group-flush bg-dark">
+                                        <li class="list-group-item bg-secondary text-white border-0 py-2">
+                                            <strong>CPU :</strong> {{ config.components.cpu }}
+                                        </li>
+                                        <li class="list-group-item bg-secondary text-white border-0 py-2">
+                                            <strong>GPU :</strong> {{ config.components.gpu }}
+                                        </li>
+                                        <li class="list-group-item bg-secondary text-white border-0 py-2">
+                                            <strong>RAM :</strong> {{ config.components.ram }}
+                                        </li>
+                                        <li class="list-group-item bg-secondary text-white border-0 py-2">
+                                            <strong>Résolution :</strong> {{ config.components.resolution }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.config-card');
+            
+            cards.forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = 'block'; 
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+{% endblock %}
