@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue de Jeux Vidéo Épiques{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+    
+    <!-- Titre principal, centré et stylisé -->
+    <h1 class="display-4 fw-bold text-center text-dark mb-5 border-bottom border-primary pb-2">
+        Découvrez les Jeux Épiques
+    </h1>
+
+    <!-- Grille des cartes de jeu avec Bootstrap Grid -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+
+    {% for jeu in jeux %}
+        <!-- Colonne pour la carte -->
+        <div class="col">
+            <!-- Lien de la carte, agissant comme un bloc cliquable -->
+            <a href="{{ path('app_jeu_detail', {'slug': jeu.slug}) }}" 
+               class="card h-100 bg-white text-dark shadow border 
+                      rounded-3 overflow-hidden text-decoration-none 
+                      transition-shadow hover-lift">
+                
+                <!-- 1. ZONE D'IMAGE / JAQUETTE -->
+                <div class="position-relative" style="height: 15rem;">
+                    
+                    {# 
+                       CETTE LIGNE EST CRITIQUE ! 
+                       Elle suppose que vos jaquettes sont dans public/image/jaquettes/ 
+                    #}
+                    {% set imagePath = 'image/jaquettes/' ~ jeu.image %}
+                    
+                    <!-- Conteneur d'image utilisant l'image de la jaquette comme arrière-plan -->
+                    <div class="w-100 h-100 bg-cover bg-center" 
+                         style="background-image: url('{{ asset(imagePath) }}'); 
+                                opacity: 1;"> 
+                    </div>
+                    
+                    <!-- Overlay de gradient sombre pour améliorer la lisibilité du titre supérieur (MAINTENU en sombre) -->
+                    <div class="w-100 h-100 position-absolute top-0 start-0" 
+                         style="background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);">
+                    </div>
+
+                    <!-- 2. Informations fléchées dans la zone d'image (Titre supérieur) -->
+                    <div class="p-3 position-absolute top-0 start-0 w-100">
+                        <p class="text-sm fw-light text-white opacity-75 mb-0">
+                            {{ jeu.nom|upper }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. Contenu principal (Bas de la carte) -->
+                <div class="card-body p-4">
+                    <!-- Nom du Jeu Principal -->
+                    <h2 class="card-title h4 fw-bold text-dark mb-1 transition-color">
+                        {{ jeu.nom }}
+                    </h2>
+
+                    <!-- Genre Principal / Sous-titre -->
+                    <p class="card-text text-secondary small mb-3">
+                        Genre principal : 
+                        <span class="fw-semibold text-primary">{{ jeu.genre|first }}</span>
+                    </p>
+
+                    <!-- Liste des genres (Badges) -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        {% for genre in jeu.genre|slice(0, 2) %} 
+                            <!-- Badges ajustés pour le thème clair (text-bg-secondary) -->
+                            <span class="badge text-bg-primary rounded-pill">
+                                {{ genre }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Année / Éditeur -->
+                    <p class="card-text text-muted small mt-2 mb-0">
+                        {{ jeu.annee }} | {{ jeu.editeur }}
+                    </p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- Style personnalisé pour le thème clair et l'effet de survol -->
+<style>
+/* Appliquez cette classe au lien <a> */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    /* Soulève légèrement la carte au survol */
+    transform: translateY(-5px); 
+    /* Ajoute une ombre plus subtile et moins agressive pour le thème clair */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Style de fond pour le placeholder d'image */
+.bg-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.bg-center {
+    background-position: center;
+}
+/* Thème clair : Fond de page en blanc léger */
+body {
+    background-color: #f8f9fa; /* Couleur light de Bootstrap */
+}
+</style>
+
+{% endblock %}

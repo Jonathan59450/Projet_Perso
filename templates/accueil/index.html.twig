@@ -3,33 +3,32 @@
 {% block title %}Aether core{% endblock %}
 
 {% block body %}
-    <br><br>
-    <p>
-    <strong>Votre PC est-il prêt pour l'aventure ?</strong>
-    Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong> <br> <br>
+    
+    <div class="container mt-4 mb-4">
+        <p>
+            <strong>Votre PC est-il prêt pour l'aventure ?</strong>
+            Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong>
+        </p>
 
-    <strong>Comment ça marche ?</strong> <br><br> Entrez vos composants, c'est tout. <br>
-    <br>
-    <strong>Configurez votre PC :</strong> Entrez manuellement les trois éléments clés de votre configuration : <strong>votre carte graphique, votre processeur et la quantité de RAM</strong>. Notre base de données vous aide à trouver vos composants en un instant.
+        <ul class="list-unstyled">
+            <li><strong>Comment ça marche ?</strong> Entrez vos composants, c'est tout.</li>
+            <li><strong>Configurez votre PC :</strong> Entrez manuellement les trois éléments clés de votre configuration : votre carte graphique, votre processeur et la quantité de RAM. Notre base de données vous aide à trouver vos composants en un instant.</li>
+            <li><strong>Trouvez votre jeu :</strong> Parcourez notre catalogue immense ou utilisez la barre de recherche pour trouver le jeu que vous convoitez.</li>
+            <li><strong>Vérifiez la compatibilité :</strong> Obtenez une analyse claire et immédiate. Nous comparons votre configuration avec les exigences du jeu pour vous dire si vous pourrez y jouer, et à quels réglages.</li>
+            <li><strong>Estimation des FPS :</strong> Nous vous donnons une estimation précise du nombre de FPS que vous pouvez attendre avec votre PC, pour les paramètres graphiques faibles, moyens et ultra.</li>
+            <li><strong>Conseils de mise à niveau :</strong> Si un jeu est trop gourmand pour votre machine, nous vous recommandons le composant précis à améliorer pour atteindre vos objectifs de performance.</li>
+            <li><strong>Guides d'optimisation :</strong> Apprenez à ajuster vos paramètres graphiques pour maximiser votre expérience de jeu, sans avoir besoin de faire une mise à jour matérielle coûteuse.</li>
+        </ul>
+        
+        <p class="mt-3">
+            <strong>Aether core est l'outil indispensable de la communauté PC.</strong> Nous vous donnons le pouvoir de faire le bon choix, en toute connaissance de cause.
+        </p>
+    </div>
 
-    <strong>Trouvez votre jeu :</strong> Parcourez notre catalogue immense ou utilisez la barre de recherche pour trouver le jeu que vous convoitez.
-
-    <strong>Vérifiez la compatibilité :</strong> Obtenez une analyse claire et immédiate. Nous comparons votre configuration avec les exigences du jeu pour vous dire si vous pourrez y jouer, et à quels réglages.
-
-    Plus qu'une simple vérification
-    <strong>Estimation des FPS :</strong> Nous vous donnons une estimation précise du nombre de FPS que vous pouvez attendre avec votre PC, pour les paramètres graphiques faibles, moyens et ultra.
-
-    <strong>Conseils de mise à niveau :</strong> Si un jeu est trop gourmand pour votre machine, nous vous recommandons le composant précis à améliorer pour atteindre vos objectifs de performance.
-
-    <strong>Guides d'optimisation :</strong> Apprenez à ajuster vos paramètres graphiques pour maximiser votre expérience de jeu, sans avoir besoin de faire une mise à jour matérielle coûteuse.
-
-    <strong>Aether core est l'outil indispensable de la communauté PC.</strong> Nous vous donnons le pouvoir de faire le bon choix, en toute connaissance de cause.
-    </p>
-
-    <div class="container my-4">
+    <div class="container my-3">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="input-group mb-3">
+                <div class="input-group">
                     <input type="text" class="form-control" placeholder="Rechercher un jeu..." aria-label="Rechercher un jeu">
                     <button class="btn btn-info" type="button">Rechercher</button>
                 </div>
@@ -37,20 +36,25 @@
         </div>
     </div>
 
-    <div class="container my-5">
-        <header class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-success">Aether core</h1>
-            <p class="lead text-white-50">Votre PC est-il prêt pour l'aventure ?</p>
-        </header>
-
+    <div class="container my-3">
+        
         <div class="row justify-content-center">
+            
             <div class="col-lg-8">
-                <div class="card bg-dark text-white shadow-lg p-4">
+                <header class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-success">Aether core</h1>
+                    <p class="lead text-white-50">Votre PC est-il prêt pour l'aventure ?</p>
+                </header>
+            </div>
+            
+            <div class="col-lg-8">
+                <div class="card bg-dark text-white shadow-lg p-4 w-100">
                     <div class="card-body">
                         <h2 class="card-title text-center text-success mb-4">Configurez votre PC et trouvez votre jeu</h2>
                         <p class="text-center text-white-50">Entrez manuellement les quatres éléments clés de votre configuration : votre carte graphique, votre processeur, la quantité de RAM et votre résolution. Notre base de données vous aide à trouver vos composants en un instant.</p>
                         <form>
                             <div class="accordion" id="accordionConfig">
+                                
                                 <div class="accordion-item bg-secondary text-white border-dark mb-3">
                                     <h2 class="accordion-header" id="headingCPU">
                                         <button class="accordion-button bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCPU" aria-expanded="true" aria-controls="collapseCPU">
@@ -145,6 +149,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 {% endblock %}

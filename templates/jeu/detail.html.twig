@@ -1,0 +1,208 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du jeu : {{ jeu.nom }}{% endblock %}
+
+{% block body %}
+
+<div class="container my-5">
+
+<!-- 1. BANDEAU DES INFORMATIONS PRINCIPALES -->
+<div class="p-4 p-md-5 detail-banner rounded-3 shadow mb-5 text-center">
+    <p class="mb-2 text-muted fw-semibold">Couverture du jeu</p>
+    
+    <h1 class="display-5 fw-bold text-white mb-3">{{ jeu.nom }}</h1>
+    
+    <p class="lead text-white-50 mb-4">
+        Année : <span class="fw-semibold text-accent-title">{{ jeu.annee }}</span> | 
+        Éditeur : <span class="fw-semibold text-accent-title">{{ jeu.editeur }}</span> | 
+        Développeur : <span class="fw-semibold text-accent-title">{{ jeu.developpeur }}</span>
+    </p>
+
+    <!-- Liste des genres en badges -->
+    <p class="mb-0 text-white-50">Genre(s) : 
+        {% for genre in jeu.genre %}
+            <span class="badge rounded-pill" style="background-color: var(--color-accent-dark); margin-right: 5px;">{{ genre }}</span>
+        {% endfor %}
+    </p>
+</div>
+
+<!-- 2. SECTION SYNOPIS -->
+<div class="p-4 detail-banner rounded-3 shadow mb-5">
+    <h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-3">Synopsis</h2>
+    <p class="lead mb-0">{{ jeu.synopsis }}</p>
+</div>
+
+<!-- 3. EXIGENCES MINIMALES DU SYSTÈME -->
+<h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-4">Exigences Minimales du Système</h2>
+
+<div class="row g-4 mb-5 text-center">
+    
+    <!-- Carte CPU -->
+    <div class="col-md-4">
+        <div class="requirement-card p-4 rounded-3 shadow">
+            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Processeur (CPU)</small></p>
+            <p class="h5 fw-normal mb-0">{{ jeu.cpuMin }}</p>
+        </div>
+    </div>
+
+    <!-- Carte GPU -->
+    <div class="col-md-4">
+        <div class="requirement-card p-4 rounded-3 shadow">
+            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Carte Graphique (GPU)</small></p>
+            <p class="h5 fw-normal mb-0">{{ jeu.gpuMin }}</p>
+        </div>
+    </div>
+
+    <!-- Carte RAM -->
+    <div class="col-md-4">
+        <div class="requirement-card p-4 rounded-3 shadow">
+            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Mémoire Vive (RAM)</small></p>
+            <p class="h5 fw-normal mb-0">{{ jeu.ramMin }} Go</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- 4. VÉRIFICATION DE COMPATIBILITÉ (SIMULATION) -->
+<div class="p-4 detail-banner rounded-3 shadow">
+    <h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-4">Vérification de Compatibilité (Simulation)</h2>
+    
+    <form id="compatibilityForm" class="row g-3">
+        <!-- Champ CPU -->
+        <div class="col-12">
+            <label for="userCpu" class="form-label text-muted">Votre CPU (ex: i5-10400, 5600x)</label>
+            <input type="text" class="form-control" id="userCpu" placeholder="5600x" value="5600x" required
+                   style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
+        </div>
+        
+        <!-- Champ GPU -->
+        <div class="col-12">
+            <label for="userGpu" class="form-label text-muted">Votre GPU (ex: RTX 3060, 6700XT)</label>
+            <input type="text" class="form-control" id="userGpu" placeholder="6700xt" value="6700xt" required
+                   style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
+        </div>
+        
+        <!-- Champ RAM -->
+        <div class="col-12">
+            <label for="userRam" class="form-label text-muted">Votre RAM (Go)</label>
+            <select class="form-select" id="userRam" required
+                    style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
+                <option value="4">4 Go</option>
+                <option value="8">8 Go</option>
+                <option value="12">12 Go</option>
+                <option value="16" selected>16 Go</option>
+                <option value="32">32 Go</option>
+                <option value="64">64 Go</option>
+            </select>
+        </div>
+        
+        <!-- Bouton de vérification -->
+        <div class="col-12 mt-4 text-center">
+            <button type="submit" class="btn btn-lg fw-bold px-5" 
+                    style="background-color: var(--color-accent); color: white; border: none; transition: background-color 0.3s;">
+                Vérifier la compatibilité
+            </button>
+        </div>
+    </form>
+
+    <!-- Zone de résultat (cachée par défaut) -->
+    <div id="resultMessage" class="mt-4 p-3 rounded-3 text-center d-none fw-bold" role="alert">
+        <!-- Le message de résultat sera inséré ici par JavaScript -->
+    </div>
+
+</div>
+
+<!-- Bouton de retour -->
+<div class="text-center mt-5">
+    <a href="{{ path('app_jeux') }}" class="btn btn-lg px-4" 
+       style="background-color: var(--color-accent-dark); color: white; transition: background-color 0.3s;">
+        ← Retour à la liste des jeux
+    </a>
+</div>
+
+
+</div>
+
+<!-- Bloc JavaScript pour la simulation de compatibilité -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const form = document.getElementById('compatibilityForm');
+const resultMessage = document.getElementById('resultMessage');
+
+    // Données du jeu (injectées depuis Twig)
+    // La variable &#39;performance&#39; est un indice abstrait de 0.5 (léger) à 2.0 (très lourd)
+    // Les exigences minimales sont traitées par la logique du script.
+    const minRequirements = {
+        cpu: &quot;{{ jeu.cpuMin }}&quot;,
+        gpu: &quot;{{ jeu.gpuMin }}&quot;,
+        ram: {{ jeu.ramMin }},
+        performanceIndex: {{ jeu.performance }} 
+    };
+
+    // Fonction très simplifiée pour évaluer la performance
+    // (En production, ceci nécessiterait une base de données de composants)
+    function evaluatePerformance(cpu, gpu, ram) {
+        // Utiliser la RAM comme métrique de base pour la simulation
+        let userPerformanceScore = (parseFloat(ram) / 8) * 1.5; 
+        
+        // Simuler l&#39;impact des composants (très basique : si l&#39;utilisateur met un mot &#39;high&#39; ou un gros chiffre)
+        if (cpu.toLowerCase().includes(&#39;i9&#39;) || cpu.toLowerCase().includes(&#39;ryzen 9&#39;) || cpu.toLowerCase().includes(&#39;5800x&#39;)) {
+            userPerformanceScore += 0.5;
+        }
+        if (gpu.toLowerCase().includes(&#39;rtx 30&#39;) || gpu.toLowerCase().includes(&#39;rtx 40&#39;) || gpu.toLowerCase().includes(&#39;rx 6700&#39;) || gpu.toLowerCase().includes(&#39;rx 7000&#39;)) {
+            userPerformanceScore += 0.5;
+        }
+        
+        return userPerformanceScore;
+    }
+
+    form.addEventListener(&#39;submit&#39;, function(e) {
+        e.preventDefault();
+
+        const userCpu = document.getElementById(&#39;userCpu&#39;).value.trim();
+        const userGpu = document.getElementById(&#39;userGpu&#39;).value.trim();
+        const userRam = document.getElementById(&#39;userRam&#39;).value;
+        
+        // --- Logique de vérification ---
+
+        const userScore = evaluatePerformance(userCpu, userGpu, userRam);
+        
+        let isCompatible = false;
+        let message = &quot;&quot;;
+        let bgColor = &quot;&quot;;
+        
+        // 1. Vérification RAM (la plus critique)
+        if (userRam &lt; minRequirements.ram) {
+            message = `Attention ! Votre RAM (${userRam} Go) est inférieure aux ${minRequirements.ram} Go minimum requis.`;
+            bgColor = &#39;rgb(220, 53, 69, 0.9)&#39;; // Rouge
+        } else if (userScore &gt;= minRequirements.performanceIndex * 1.1) {
+            // Compatible avec marge (score &gt; 110% de l&#39;indice requis)
+            message = &quot;Félicitations ! Votre configuration est compatible avec les exigences minimales du jeu et devrait offrir une bonne expérience.&quot;;
+            bgColor = &#39;rgb(40, 167, 69, 0.9)&#39;; // Vert
+            isCompatible = true;
+        } else if (userScore &gt;= minRequirements.performanceIndex * 0.9) {
+            // Compatible limite (score &gt; 90% de l&#39;indice requis)
+            message = &quot;Compatibilité Limite : Votre configuration est acceptable, mais vous pourriez rencontrer des difficultés pour jouer dans les meilleurs réglages.&quot;;
+            bgColor = &#39;rgb(255, 193, 7, 0.9)&#39;; // Jaune/Orange
+        } else {
+            // Non compatible
+            message = &quot;Incompatible : Votre configuration semble insuffisante pour les exigences minimales de ce jeu.&quot;;
+            bgColor = &#39;rgb(220, 53, 69, 0.9)&#39;; // Rouge
+        }
+        
+        // --- Affichage du résultat ---
+
+        resultMessage.textContent = message;
+        resultMessage.style.backgroundColor = bgColor;
+        resultMessage.classList.remove(&#39;d-none&#39;); // Rendre visible
+
+        // Assurer que le texte est lisible (blanc pour le fond sombre)
+        resultMessage.style.color = &#39;#fff&#39;;
+    });
+});
+
+
+</script>
+
+{% endblock %}

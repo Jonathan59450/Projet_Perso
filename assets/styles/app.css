@@ -4,23 +4,21 @@ body {
       margin: 0 auto;
 }
 
-/* Conteneur des cartes */
 .card-container {
-    display: flex; /* Active le mode Flexbox */
-    flex-wrap: wrap; /* Permet aux cartes de passer à la ligne suivante */
-    gap: 20px; /* Ajoute un espace de 20px entre chaque carte */
-    justify-content: center; /* Centre les cartes horizontalement */
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: center; 
     padding: 20px;
 }
 
-/* Style de chaque carte */
 .card {
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
     padding: 20px;
-    width: 300px; /* Largeur de chaque carte. Vous pouvez ajuster cette valeur. */
+    width: 300px; 
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
 }
