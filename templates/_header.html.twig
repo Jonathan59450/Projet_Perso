@@ -6,18 +6,20 @@
                 <img src="{{asset("image/Aether core logo.png")}}" alt="logo">
             </div>
             <div class="fs-2 d-flex gap-3 align-items-center">
-                <p class="acceuil mb-0">
-                    Acceuil
-                </p>
-                <p class="hardware mb-0">
+                
+                {# Remplacer les <p> par des <a> et utiliser la fonction path() #}
+                <a href="{{ path('app_accueil') }}" class="acceuil mb-0 text-decoration-none text-dark">
+                    Accueil
+                </a>
+                
+                <a href="{{ path('app_hardware') }}" class="hardware mb-0 text-decoration-none text-dark">
                     - Hardware
-                </p>
-                <p class="Jeux mb-0">
+                </a>
+                
+                <a href="{{ path('app_jeux') }}" class="jeux mb-0 text-decoration-none text-dark">
                     - Jeux
-                </p>
-                <p class="Avis mb-0">
-                    - Avis
-                </p>
+                </a>
+                
             </div>
         </div>
         <div class="google-translate-container d-flex justify-content-end align-self-start mt-3 me-3">

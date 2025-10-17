@@ -4,102 +4,237 @@
 
 {% block body %}
 
+<!-- Style personnalisé pour le thème clair et les couleurs -->
+<style>
+    /* VARIABLES (Adaptées pour un thème clair) */
+    :root {
+        --color-primary: #0d6efd; /* Bleu Bootstrap */
+        --color-secondary: #6c757d;
+        --color-bg-light: #ffffff; /* Fond des cartes / éléments */
+        --color-bg-page: #f8f9fa; /* Fond de la page */
+        --color-text-dark: #212529; /* Texte principal */
+        --color-accent: #0dcaf0; /* Cyan (pour le bouton Vérifier) */
+        --color-accent-dark: #0aa7c9; /* Cyan foncé */
+
+        /* Couleurs pour le JS */
+        --color-simulated-success: rgb(40, 167, 69, 0.9);
+        --color-simulated-warning: rgb(255, 193, 7, 0.9);
+        --color-simulated-danger: rgb(220, 53, 69, 0.9);
+    }
+
+    /* Le body hérite du fond clair du index.html.twig */
+    body {
+        background-color: var(--color-bg-page);
+    }
+
+    /* Style général des conteneurs d'information */
+    .detail-card {
+        background-color: var(--color-bg-light);
+        color: var(--color-text-dark);
+        border: 1px solid #dee2e6;
+    }
+
+    /* Style des badges (utilisé pour les genres) */
+    .badge-genre {
+        background-color: var(--color-primary); /* Utilisation de la couleur primaire */
+        color: white;
+    }
+
+    /* Style des cartes d'exigences (CPU/GPU/RAM) */
+    .requirement-card {
+        background-color: var(--color-bg-light); /* Fond clair */
+        border: 2px solid var(--color-primary); /* Bordure accentuée */
+        color: var(--color-text-dark);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 120px; /* Assurer une hauteur uniforme */
+    }
+    .requirement-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.2); /* Ombre de couleur primaire */
+    }
+
+    /* Styles pour les champs de formulaire sur fond clair */
+    .form-control, .form-select {
+        background-color: #f8f9fa; 
+        border: 1px solid #ced4da;
+        color: var(--color-text-dark);
+    }
+    
+    /* Styles pour les messages de résultat (pour le JS) */
+    .alert-success-simulated { background-color: var(--color-simulated-success); color: white; }
+    .alert-warning-simulated { background-color: var(--color-simulated-warning); color: var(--color-text-dark); }
+    .alert-danger-simulated { background-color: var(--color-simulated-danger); color: white; }
+    
+    /* Style pour le texte de correction */
+    .correction-note {
+        font-size: 0.85rem;
+        color: #dc3545; /* Rouge pour signaler la correction/l'override */
+        font-weight: 600;
+        margin-top: 5px;
+    }
+</style>
+
 <div class="container my-5">
 
-<!-- 1. BANDEAU DES INFORMATIONS PRINCIPALES -->
-<div class="p-4 p-md-5 detail-banner rounded-3 shadow mb-5 text-center">
-    <p class="mb-2 text-muted fw-semibold">Couverture du jeu</p>
+<!-- 1. BANDEAU AVEC IMAGE ET INFORMATIONS PRINCIPALES -->
+<div class="row g-4 detail-card rounded-4 shadow-lg mb-5 p-0">
     
-    <h1 class="display-5 fw-bold text-white mb-3">{{ jeu.nom }}</h1>
-    
-    <p class="lead text-white-50 mb-4">
-        Année : <span class="fw-semibold text-accent-title">{{ jeu.annee }}</span> | 
-        Éditeur : <span class="fw-semibold text-accent-title">{{ jeu.editeur }}</span> | 
-        Développeur : <span class="fw-semibold text-accent-title">{{ jeu.developpeur }}</span>
-    </p>
+    <!-- Zone de l'image (Jaquette) -->
+    <div class="col-lg-5 p-0 rounded-start-4 overflow-hidden">
+        {% set imagePath = 'image/jaquettes/' ~ jeu.image %}
+        <div class="w-100 h-100" style="background-image: url('{{ asset(imagePath) }}'); background-size: cover; background-position: center; min-height: 350px;">
+            <div class="w-100 h-100" style="background: linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.7) 100%);">
+            </div>
+        </div>
+    </div>
 
-    <!-- Liste des genres en badges -->
-    <p class="mb-0 text-white-50">Genre(s) : 
-        {% for genre in jeu.genre %}
-            <span class="badge rounded-pill" style="background-color: var(--color-accent-dark); margin-right: 5px;">{{ genre }}</span>
-        {% endfor %}
-    </p>
+    <!-- Zone de texte des informations -->
+    <div class="col-lg-7 p-4 p-md-5 d-flex flex-column justify-content-center">
+        <h1 class="display-5 fw-bold text-primary mb-3">{{ jeu.nom }}</h1>
+        
+        <p class="lead text-secondary mb-4 border-bottom pb-3">
+            Développé par <span class="fw-bold">{{ jeu.developpeur }}</span> et édité par <span class="fw-bold">{{ jeu.editeur }}</span>, sorti en **{{ jeu.annee }}**.
+        </p>
+
+        <!-- Liste des genres en badges -->
+        <div class="mb-4">
+            <p class="mb-2 text-muted fw-semibold">Genre(s) :</p>
+            <div class="d-flex flex-wrap gap-2">
+                {% for genre in jeu.genre %}
+                    <span class="badge badge-genre rounded-pill">{{ genre }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <!-- 2. SECTION SYNOPIS -->
-<div class="p-4 detail-banner rounded-3 shadow mb-5">
-    <h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-3">Synopsis</h2>
-    <p class="lead mb-0">{{ jeu.synopsis }}</p>
+<div class="p-4 detail-card rounded-4 shadow-sm mb-5">
+    <h2 class="h4 text-primary border-bottom border-secondary pb-2 mb-3">Synopsis</h2>
+    <p class="lead text-dark mb-0">{{ jeu.synopsis }}</p>
 </div>
 
 <!-- 3. EXIGENCES MINIMALES DU SYSTÈME -->
-<h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-4">Exigences Minimales du Système</h2>
+<h2 class="h4 text-primary border-bottom border-secondary pb-2 mb-4" id="systemRequirementsTitle">Exigences Systèmes</h2>
 
 <div class="row g-4 mb-5 text-center">
     
     <!-- Carte CPU -->
     <div class="col-md-4">
-        <div class="requirement-card p-4 rounded-3 shadow">
-            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Processeur (CPU)</small></p>
-            <p class="h5 fw-normal mb-0">{{ jeu.cpuMin }}</p>
+        <div class="requirement-card p-4 rounded-3 shadow-sm">
+            <p class="text-secondary text-uppercase fw-bold mb-1"><small>Processeur (CPU)</small></p>
+            <p class="h5 fw-normal mb-0 text-dark" id="displayCpuMin">{{ jeu.cpuMin }}</p>
         </div>
+        
     </div>
 
     <!-- Carte GPU -->
     <div class="col-md-4">
-        <div class="requirement-card p-4 rounded-3 shadow">
-            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Carte Graphique (GPU)</small></p>
-            <p class="h5 fw-normal mb-0">{{ jeu.gpuMin }}</p>
+        <div class="requirement-card p-4 rounded-3 shadow-sm">
+            <p class="text-secondary text-uppercase fw-bold mb-1"><small>Carte Graphique (GPU)</small></p>
+            <p class="h5 fw-normal mb-0 text-dark" id="displayGpuMin">{{ jeu.gpuMin }}</p>
         </div>
     </div>
 
     <!-- Carte RAM -->
     <div class="col-md-4">
-        <div class="requirement-card p-4 rounded-3 shadow">
-            <p class="text-white-50 text-uppercase fw-bold mb-1"><small>Mémoire Vive (RAM)</small></p>
-            <p class="h5 fw-normal mb-0">{{ jeu.ramMin }} Go</p>
+        <div class="requirement-card p-4 rounded-3 shadow-sm">
+            <p class="text-secondary text-uppercase fw-bold mb-1"><small>Mémoire Vive (RAM)</small></p>
+            <p class="h5 fw-normal mb-0 text-dark" id="displayRamMin">{{ jeu.ramMin }} Go</p>
         </div>
+    </div>
+    <div class="col-12 mt-2 text-center" id="correctionNoteContainer">
+        <!-- Note de correction insérée ici par JS -->
     </div>
 </div>
 
 
 <!-- 4. VÉRIFICATION DE COMPATIBILITÉ (SIMULATION) -->
-<div class="p-4 detail-banner rounded-3 shadow">
-    <h2 class="h4 text-accent-title border-bottom border-accent pb-2 mb-4">Vérification de Compatibilité (Simulation)</h2>
+<div class="p-4 detail-card rounded-4 shadow-sm">
+    <h2 class="h4 text-primary border-bottom border-secondary pb-2 mb-4">Vérification de Compatibilité (Simulation)</h2>
     
+    <!-- Le formulaire est maintenant géré par JS pour la persistance des données -->
     <form id="compatibilityForm" class="row g-3">
-        <!-- Champ CPU -->
-        <div class="col-12">
-            <label for="userCpu" class="form-label text-muted">Votre CPU (ex: i5-10400, 5600x)</label>
-            <input type="text" class="form-control" id="userCpu" placeholder="5600x" value="5600x" required
-                   style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
-        </div>
         
-        <!-- Champ GPU -->
-        <div class="col-12">
-            <label for="userGpu" class="form-label text-muted">Votre GPU (ex: RTX 3060, 6700XT)</label>
-            <input type="text" class="form-control" id="userGpu" placeholder="6700xt" value="6700xt" required
-                   style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
+        <!-- Ligne 1: Votre Matériel (CPU, GPU, RAM, Résolution) -->
+        <div class="col-12 row g-3">
+            <!-- Champ CPU -->
+            <div class="col-12 col-md-3">
+                <label for="userCpu" class="form-label text-muted">Votre CPU</label>
+                <!-- Retrait de la valeur par défaut pour laisser la persistance JS prendre le relais -->
+                <input type="text" class="form-control" id="userCpu" placeholder="i7-8700K" required>
+            </div>
+            
+            <!-- Champ GPU -->
+            <div class="col-12 col-md-3">
+                <label for="userGpu" class="form-label text-muted">Votre GPU</label>
+                <!-- Retrait de la valeur par défaut pour laisser la persistance JS prendre le relais -->
+                <input type="text" class="form-control" id="userGpu" placeholder="RTX 2060 S" required>
+            </div>
+            
+            <!-- Champ RAM Utilisateur -->
+            <div class="col-12 col-md-3">
+                <label for="userRam" class="form-label text-muted">Votre RAM (Go)</label>
+                <select class="form-select" id="userRam" required>
+                    <option value="4">4 Go</option>
+                    <option value="8">8 Go</option>
+                    <option value="12">12 Go</option>
+                    <option value="16">16 Go</option>
+                    <option value="32">32 Go</option>
+                    <option value="64">64 Go</option>
+                </select>
+            </div>
+
+            <!-- Champ Résolution -->
+            <div class="col-12 col-md-3">
+                <label for="userResolution" class="form-label text-muted">Résolution cible</label>
+                <select class="form-select" id="userResolution" required>
+                    <option value="1.0">1080p (Full HD)</option>
+                    <option value="1.5">1440p (QHD)</option>
+                    <option value="2.5">2160p (4K)</option>
+                </select>
+            </div>
         </div>
-        
-        <!-- Champ RAM -->
-        <div class="col-12">
-            <label for="userRam" class="form-label text-muted">Votre RAM (Go)</label>
-            <select class="form-select" id="userRam" required
-                    style="background-color: var(--color-bg-primary); border-color: #30304a; color: var(--color-text-light);">
-                <option value="4">4 Go</option>
-                <option value="8">8 Go</option>
-                <option value="12">12 Go</option>
-                <option value="16" selected>16 Go</option>
-                <option value="32">32 Go</option>
-                <option value="64">64 Go</option>
-            </select>
+
+        <!-- Ligne 2: Mode de Simulation et Upscaling -->
+        <div class="col-12 row g-3 mt-4">
+            
+            <!-- Mode de Simulation (Minimal vs. Recommandé) -->
+            <div class="col-12 col-md-6">
+                <label for="simulationMode" class="form-label text-muted">Mode de Simulation</label>
+                <select class="form-select" id="simulationMode" required>
+                    <option value="minimal">Exigences Minimales (30 FPS Low)</option>
+                    <option value="recommended">Exigences Recommandées (60 FPS Medium)</option>
+                    <option value="high">Exigences Hautes (60 FPS High/Ultra)</option>
+                </select>
+                <small class="form-text text-muted">Les exigences affichées ci-dessus s'ajustent selon ce mode.</small>
+            </div>
+
+            <!-- Champ Technologies d'Upscaling -->
+            <div class="col-12 col-md-6">
+                <label for="userUpscaling" class="form-label text-muted">Technologie d'Upscaling</label>
+                <select class="form-select" id="userUpscaling">
+                    <option value="1.0">Aucun / Rendu Natif (x1.0)</option>
+                    <!-- DLSS/XeSS -->
+                    <option value="1.2">DLSS/XeSS Qualité (x1.2)</option>
+                    <option value="1.5">DLSS/XeSS Équilibré (x1.5)</option>
+                    <option value="1.8">DLSS/XeSS Performance (x1.8)</option>
+                    <option value="2.0">DLSS/XeSS Ultra Performance (x2.0)</option>
+                    <!-- FSR -->
+                    <option value="1.1">FSR Qualité (x1.1)</option>
+                    <option value="1.4">FSR Équilibré (x1.4)</option>
+                    <option value="1.7">FSR Performance (x1.7)</option>
+                    <option value="1.9">FSR Ultra Performance (x1.9)</option>
+                </select>
+                <small class="form-text text-muted">Augmente le score de performance pour la simulation.</small>
+            </div>
         </div>
         
         <!-- Bouton de vérification -->
         <div class="col-12 mt-4 text-center">
-            <button type="submit" class="btn btn-lg fw-bold px-5" 
-                    style="background-color: var(--color-accent); color: white; border: none; transition: background-color 0.3s;">
+            <button type="submit" class="btn btn-lg fw-bold px-5 text-white" 
+                    style="background-color: var(--color-accent); border: none; transition: background-color 0.3s;">
                 Vérifier la compatibilité
             </button>
         </div>
@@ -114,8 +249,8 @@
 
 <!-- Bouton de retour -->
 <div class="text-center mt-5">
-    <a href="{{ path('app_jeux') }}" class="btn btn-lg px-4" 
-       style="background-color: var(--color-accent-dark); color: white; transition: background-color 0.3s;">
+    <a href="{{ path('app_jeux') }}" class="btn btn-lg px-4 text-white" 
+       style="background-color: var(--color-secondary); transition: background-color 0.3s;">
         ← Retour à la liste des jeux
     </a>
 </div>
@@ -123,86 +258,387 @@
 
 </div>
 
-<!-- Bloc JavaScript pour la simulation de compatibilité -->
-
+<!-- Bloc JavaScript pour la simulation de compatibilité et l'override des données -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-const form = document.getElementById('compatibilityForm');
-const resultMessage = document.getElementById('resultMessage');
+    const form = document.getElementById('compatibilityForm');
+    const resultMessage = document.getElementById('resultMessage');
+    const simulationModeSelect = document.getElementById('simulationMode');
+    const systemRequirementsTitle = document.getElementById('systemRequirementsTitle'); // Nouveau
+
+    // Récupérer la couleur sombre du texte pour le cas d'avertissement
+    const rootStyles = getComputedStyle(document.documentElement);
+    const colorTextDark = rootStyles.getPropertyValue('--color-text-dark').trim();
+
+    // Base de l'estimation FPS : on suppose que le "performanceIndex" minimal vise 30 FPS à 1080p natif,
+    const baseTargetFPS_Minimal = 30; 
+    const baseTargetFPS_High = 60;
 
     // Données du jeu (injectées depuis Twig)
-    // La variable &#39;performance&#39; est un indice abstrait de 0.5 (léger) à 2.0 (très lourd)
-    // Les exigences minimales sont traitées par la logique du script.
-    const minRequirements = {
-        cpu: &quot;{{ jeu.cpuMin }}&quot;,
-        gpu: &quot;{{ jeu.gpuMin }}&quot;,
-        ram: {{ jeu.ramMin }},
-        performanceIndex: {{ jeu.performance }} 
+    const currentJeuNom = "{{ jeu.nom }}";
+    const initialMinRequirements = {
+        cpu: "{{ jeu.cpuMin }}",
+        gpu: "{{ jeu.gpuMin }}",
+        ram: {{ jeu.ramMin | default(8) }}, // Valeur par défaut si Twig est vide
+        performanceIndex: {{ jeu.performance | default(1.0) }} 
+    };
+    
+    // --- CATALOGUE DES EXIGENCES MINIMALES CORRIGÉES (30 FPS Low) ---
+    const MINIMAL_SPECS_OVERRIDE_MAP = {
+        // Jeu: { ram (Go), performanceIndex (Arbitraire pour 30 FPS), cpu, gpu }
+        "PUBG: BATTLEGROUNDS": { ram: 8, performanceIndex: 0.7, cpu: "i5-4430 / FX-6300", gpu: "GTX 960 2 Go" },
+        "Black Myth: Wukong": { ram: 16, performanceIndex: 1.8, cpu: "i5-8400 / R5 1600", gpu: "GTX 1060 6 Go" },
+        "Palworld": { ram: 16, performanceIndex: 1.0, cpu: "i5-3570K / R5 1500X", gpu: "GTX 1050 Ti" },
+        "Counter-Strike 2": { ram: 8, performanceIndex: 0.7, cpu: "i5-2500K / FX-8350", gpu: "GTX 1050 Ti" },
+        "Monster Hunter Wilds (estimé sur base de MHW & trailers)": { ram: 8, performanceIndex: 1.2, cpu: "i5-6600K", gpu: "GTX 1060" },
+        "Lost Ark": { ram: 8, performanceIndex: 0.5, cpu: "i3-530 / FX-4100", gpu: "GTX 460" },
+        "Dota 2": { ram: 4, performanceIndex: 0.3, cpu: "Dual-core", gpu: "Intel HD" },
+        "Cyberpunk 2077 (v2.0)": { ram: 12, performanceIndex: 1.2, cpu: "i7-6700 / R5 1600", gpu: "GTX 1060 6 Go" },
+        "Elden Ring": { ram: 12, performanceIndex: 1.1, cpu: "i5-8400 / R3 3300X", gpu: "GTX 1060" },
+        "Hogwarts Legacy": { ram: 16, performanceIndex: 1.0, cpu: "i5-6600 / R5 1400", gpu: "GTX 960 4 Go" },
+        "Baldur’s Gate 3": { ram: 8, performanceIndex: 1.0, cpu: "i5-4690 / R5 1500X", gpu: "GTX 970" },
+        "Battlefield 6": { ram: 16, performanceIndex: 1.0, cpu: "Core i5 8400 / Ryzen 5 2600", gpu: "GTX 1050 Ti / RX 560 / Intel Arc A380" }, // OFFICIEL BF2042
+        "Apex Legends": { ram: 6, performanceIndex: 0.4, cpu: "i3-6300 / R5 1400", gpu: "GTX 640" },
+        "Rust": { ram: 10, performanceIndex: 0.8, cpu: "i7-3770 / FX-9590", gpu: "GTX 670" },
+        "Naraka: Bladepoint": { ram: 16, performanceIndex: 0.6, cpu: "i5-4460", gpu: "GTX 750 Ti" },
+        "GTA V": { ram: 8, performanceIndex: 0.5, cpu: "i5-3470 / FX-8350", gpu: "GTX 660" },
+        "The Sims 4": { ram: 4, performanceIndex: 0.2, cpu: "i3-3220", gpu: "GTX 650" },
+        "Valorant": { ram: 4, performanceIndex: 0.1, cpu: "Dual-core", gpu: "Intel HD" },
+        "Fortnite": { ram: 8, performanceIndex: 0.4, cpu: "i3-3225", gpu: "Intel HD 4000" },
+        "Roblox (PC)": { ram: 4, performanceIndex: 0.1, cpu: "Dual-core", gpu: "Intel HD" },
+        "Assassin’s Creed Shadows (2025)": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700K / R5 3600", gpu: "RTX 2060 / RX 5600 XT 6 Go" }, 
+        "The Witcher 3: Wild Hunt (Next-Gen)": { ram: 8, performanceIndex: 0.8, cpu: "i5-2500K / FX-8350", gpu: "GTX 970" },
+        "Red Dead Redemption 2": { ram: 8, performanceIndex: 0.9, cpu: "i5-2500K / R5 1500X", gpu: "GTX 770" },
+        "Minecraft (Java + RTX)": { ram: 4, performanceIndex: 0.1, cpu: "Dual-core", gpu: "Intel HD 4000" },
+        "Forza Horizon 5": { ram: 8, performanceIndex: 0.8, cpu: "i5-4460 / R3 1200", gpu: "GTX 970 / RX 470" },
+        "Helldivers 2": { ram: 8, performanceIndex: 0.8, cpu: "i7-4790 / R5 1500X", gpu: "GTX 1050 Ti" },
+        "Diablo IV": { ram: 8, performanceIndex: 0.7, cpu: "i5-2500K / R5 1600", gpu: "GTX 660" },
+        "Street Fighter 6": { ram: 8, performanceIndex: 0.7, cpu: "i5-6600 / R5 1600", gpu: "GTX 1060" },
+        "FIFA 25 (moteur Frostbite Next)": { ram: 8, performanceIndex: 0.6, cpu: "i5-6600K", gpu: "GTX 1050 Ti" },
+        "Cities: Skylines II": { ram: 8, performanceIndex: 1.2, cpu: "i7-6700K / R5 2600X", gpu: "GTX 970" },
+        "Final Fantasy XVI (PC) (annoncé 2025)": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700 / R5 3600", gpu: "GTX 1070" }, 
+        "Marvel’s Spider-Man 2 (PC)": { ram: 16, performanceIndex: 1.0, cpu: "i5-4670 / R5 1600", gpu: "GTX 1060" },
+        "Hades II (Early Access)": { ram: 8, performanceIndex: 0.4, cpu: "i5-2500K", gpu: "GTX 950" },
+        "Resident Evil 4 Remake": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700 / R5 3600", gpu: "RTX 3060 Ti" }, 
+        "R.E.P.O. (indé / faible conso)": { ram: 4, performanceIndex: 0.2, cpu: "i3-6100", gpu: "Intel HD" },
+        "Schedule 1 (indé peu connu)": { ram: 4, performanceIndex: 0.1, cpu: "i3", gpu: "Intel HD" },
     };
 
-    // Fonction très simplifiée pour évaluer la performance
-    // (En production, ceci nécessiterait une base de données de composants)
-    function evaluatePerformance(cpu, gpu, ram) {
-        // Utiliser la RAM comme métrique de base pour la simulation
-        let userPerformanceScore = (parseFloat(ram) / 8) * 1.5; 
+    // --- CATALOGUE DES EXIGENCES RECOMMANDÉES (60 FPS Medium) ---
+    const RECOMMENDED_SPECS_MAP = {
+        // Jeu: { ram (Go), performanceIndex (Arbitraire pour 60 FPS), cpu, gpu }
+        "PUBG: BATTLEGROUNDS": { ram: 16, performanceIndex: 1.5, cpu: "i5-6600K / R5 1600", gpu: "GTX 1060 6 Go / RX 580" },
+        "Black Myth: Wukong": { ram: 16, performanceIndex: 2.5, cpu: "i7-9700 / R5 5600", gpu: "RTX 2060 / RX 6700" },
+        "Palworld": { ram: 32, performanceIndex: 2.5, cpu: "i9-9900K / R5 3600", gpu: "RTX 2070 / RX 6700 XT" },
+        "Counter-Strike 2": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700K / R5 3600", gpu: "GTX 1060 6 Go / RX 580" },
+        "Monster Hunter Wilds (estimé sur base de MHW & trailers)": { ram: 16, performanceIndex: 2.5, cpu: "i7-8700K / R5 3600", gpu: "RTX 2070 / RX 6700 XT" },
+        "Lost Ark": { ram: 16, performanceIndex: 1.0, cpu: "i5-6600 / R5 1600", gpu: "GTX 1050 Ti" },
+        "Dota 2": { ram: 8, performanceIndex: 0.7, cpu: "i5-2400", gpu: "GTX 1050" },
+        "Cyberpunk 2077 (v2.0)": { ram: 16, performanceIndex: 2.2, cpu: "i7-12700 / R7 7800X", gpu: "RTX 2060 S / RX 5700 XT" },
+        "Elden Ring": { ram: 16, performanceIndex: 2.0, cpu: "i7-8700K / R5 3600X", gpu: "GTX 1070 / Vega 56" },
+        "Hogwarts Legacy": { ram: 16, performanceIndex: 2.5, cpu: "i7-8700 / R5 3600", gpu: "RTX 2060 S / RX 6700 XT" },
+        "Baldur’s Gate 3": { ram: 16, performanceIndex: 2.0, cpu: "i7-8700K / R5 3600", gpu: "RTX 2060 S / RX 6600" },
+        "Battlefield 6": { ram: 16, performanceIndex: 2.5, cpu: "i7-10700 / R7 3700X", gpu: "RTX 3060 Ti 8 Go / RX 6700 XT 12 Go" }, // OFFICIEL BF2042
+        "Apex Legends": { ram: 16, performanceIndex: 1.0, cpu: "i5-3570K / R5 3600", gpu: "GTX 970 / RX 580" },
+        "Rust": { ram: 16, performanceIndex: 1.5, cpu: "i7-4790K / R5 3600", gpu: "GTX 980 / RX 580" },
+        "Naraka: Bladepoint": { ram: 16, performanceIndex: 1.2, cpu: "i7-7700 / R5 2600", gpu: "GTX 1060 / RX 580" },
+        "GTA V": { ram: 16, performanceIndex: 1.0, cpu: "i7-8700K / R5 3600", gpu: "GTX 1660 S / RX 6600" },
+        "The Sims 4": { ram: 8, performanceIndex: 0.4, cpu: "i5-7500", gpu: "GTX 960" },
+        "Valorant": { ram: 8, performanceIndex: 0.3, cpu: "i5-9400F", gpu: "GTX 1050 Ti" },
+        "Fortnite": { ram: 16, performanceIndex: 1.0, cpu: "i5-7300U / R5 1400", gpu: "GTX 1060 6 Go / RX 580" },
+        "Roblox (PC)": { ram: 8, performanceIndex: 0.3, cpu: "i5-6400", gpu: "GTX 750 Ti" },
+        "Assassin’s Creed Shadows (2025)": { ram: 16, performanceIndex: 2.5, cpu: "i7-12700 / R7 7800X", gpu: "RTX 4070 / RX 7900" },
+        "The Witcher 3: Wild Hunt (Next-Gen)": { ram: 16, performanceIndex: 1.5, cpu: "i7-4770K / R5 3600", gpu: "GTX 1660 S / RX 6600" },
+        "Red Dead Redemption 2": { ram: 16, performanceIndex: 2.0, cpu: "i7-4770K / R5 3600", gpu: "RTX 2060 S / RX 6700 XT" },
+        "Minecraft (Java + RTX)": { ram: 8, performanceIndex: 0.6, cpu: "i5-6400 / R5 1400", gpu: "GTX 1060 / RX 580" },
+        "Forza Horizon 5": { ram: 16, performanceIndex: 2.5, cpu: "i7-10700K / R5 5600", gpu: "RTX 2070 / RX 6700" },
+        "Helldivers 2": { ram: 16, performanceIndex: 1.5, cpu: "i7-9700K / R5 3600", gpu: "RTX 2060 / RX 6600 XT" },
+        "Diablo IV": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700K / R5 3600", gpu: "RTX 2060 / RX 5700 XT" },
+        "Street Fighter 6": { ram: 16, performanceIndex: 1.5, cpu: "i7-8700 / R5 3600", gpu: "RTX 2070 / RX 6700" },
+        "FIFA 25 (moteur Frostbite Next)": { ram: 16, performanceIndex: 1.5, cpu: "i7-9700K / R5 3600", gpu: "RTX 2060 S" },
+        "Cities: Skylines II": { ram: 16, performanceIndex: 2.0, cpu: "i7-9700K / R5 5600X", gpu: "RTX 3080 / RX 6800 XT" },
+        "Final Fantasy XVI (PC) (annoncé 2025)": { ram: 16, performanceIndex: 2.5, cpu: "i7-12700 / R7 7800X", gpu: "RTX 3070 Ti" }, 
+        "Marvel’s Spider-Man 2 (PC)": { ram: 16, performanceIndex: 2.0, cpu: "i7-8700K / R5 3600", gpu: "RTX 2070 S / RX 6700" },
+        "Hades II (Early Access)": { ram: 16, performanceIndex: 0.8, cpu: "i5-4590", gpu: "GTX 1060" },
+        "Resident Evil 4 Remake": { ram: 16, performanceIndex: 2.5, cpu: "i7-8700 / R5 3600", gpu: "RTX 3060 Ti" }, 
+        "R.E.P.O. (indé / faible conso)": { ram: 8, performanceIndex: 0.4, cpu: "i5-6400", gpu: "GTX 750 Ti" },
+        "Schedule 1 (indé peu connu)": { ram: 8, performanceIndex: 0.3, cpu: "i5-6400", gpu: "GTX 750 Ti" },
         
-        // Simuler l&#39;impact des composants (très basique : si l&#39;utilisateur met un mot &#39;high&#39; ou un gros chiffre)
-        if (cpu.toLowerCase().includes(&#39;i9&#39;) || cpu.toLowerCase().includes(&#39;ryzen 9&#39;) || cpu.toLowerCase().includes(&#39;5800x&#39;)) {
-            userPerformanceScore += 0.5;
-        }
-        if (gpu.toLowerCase().includes(&#39;rtx 30&#39;) || gpu.toLowerCase().includes(&#39;rtx 40&#39;) || gpu.toLowerCase().includes(&#39;rx 6700&#39;) || gpu.toLowerCase().includes(&#39;rx 7000&#39;)) {
-            userPerformanceScore += 0.5;
-        }
+        // NOUVELLE ENTRÉE OFFICIELLE CONFIRMÉE pour BF6
+        "Battlefield 6": { ram: 16, performanceIndex: 2.5, cpu: "i7-10700 / R7 3700X", gpu: "RTX 3060 Ti 8 Go / RX 6700 XT 12 Go" },
+    };
+    
+    // --- LOGIQUE DE CORRECTION / MISE À JOUR BASÉE SUR L'INFO BF6 ---
+    
+    // Variable pour stocker si une correction a été appliquée (utile pour l'affichage)
+    let isCorrectionApplied = false;
+
+    // Check si le jeu actuel est un titre Battlefield qui pourrait être remplacé par le nouveau BF6 (2042 ou l'ancienne estimation)
+    if (currentJeuNom.includes("Battlefield 2042") || currentJeuNom.includes("Future Battlefield")) {
+        isCorrectionApplied = true;
+        const bf6Min = MINIMAL_SPECS_OVERRIDE_MAP["Battlefield 6"];
         
-        return userPerformanceScore;
+        // Appliquer les spécifications de BF6 à l'entrée actuelle du jeu pour la simulation
+        MINIMAL_SPECS_OVERRIDE_MAP[currentJeuNom] = bf6Min;
+        RECOMMENDED_SPECS_MAP[currentJeuNom] = RECOMMENDED_SPECS_MAP["Battlefield 6"];
+
+        // Afficher la note de correction initialement
+        document.getElementById('correctionNoteContainer').innerHTML = `
+            <p class="correction-note">
+                <i class="fas fa-exclamation-triangle me-2"></i> 
+                Mise à jour : Les exigences système sont désormais basées sur la configuration **Battlefield 6** (Minimum : 16 Go de RAM) pour refléter les dernières informations d'EA.
+            </p>
+        `;
+        
+        // Mettre à jour les valeurs d'affichage initiales (Minimales) avec celles de BF6
+        document.getElementById('displayCpuMin').textContent = bf6Min.cpu;
+        document.getElementById('displayGpuMin').textContent = bf6Min.gpu;
+        document.getElementById('displayRamMin').textContent = bf6Min.ram + " Go";
+    } else {
+        // S'assurer que le conteneur est vide si aucune correction n'est appliquée
+        document.getElementById('correctionNoteContainer').innerHTML = '';
     }
 
-    form.addEventListener(&#39;submit&#39;, function(e) {
-        e.preventDefault();
+    // Fonction d'initialisation et de gestion de l'état
+    function init() {
+        // Charger l'état précédent
+        loadState();
+        
+        // Assurer l'affichage initial correct des exigences (Minimum par défaut, ou l'override si applicable)
+        updateRequirementsDisplay(simulationModeSelect.value);
 
-        const userCpu = document.getElementById(&#39;userCpu&#39;).value.trim();
-        const userGpu = document.getElementById(&#39;userGpu&#39;).value.trim();
-        const userRam = document.getElementById(&#39;userRam&#39;).value;
-        
-        // --- Logique de vérification ---
+        // Attacher les écouteurs d'événements
+        form.addEventListener('submit', handleFormSubmit);
+        simulationModeSelect.addEventListener('change', function() {
+            updateRequirementsDisplay(this.value);
+            // Vider le message de résultat lorsque le mode change pour forcer une nouvelle vérification
+            resultMessage.classList.add('d-none');
+        });
+    }
 
-        const userScore = evaluatePerformance(userCpu, userGpu, userRam);
-        
-        let isCompatible = false;
-        let message = &quot;&quot;;
-        let bgColor = &quot;&quot;;
-        
-        // 1. Vérification RAM (la plus critique)
-        if (userRam &lt; minRequirements.ram) {
-            message = `Attention ! Votre RAM (${userRam} Go) est inférieure aux ${minRequirements.ram} Go minimum requis.`;
-            bgColor = &#39;rgb(220, 53, 69, 0.9)&#39;; // Rouge
-        } else if (userScore &gt;= minRequirements.performanceIndex * 1.1) {
-            // Compatible avec marge (score &gt; 110% de l&#39;indice requis)
-            message = &quot;Félicitations ! Votre configuration est compatible avec les exigences minimales du jeu et devrait offrir une bonne expérience.&quot;;
-            bgColor = &#39;rgb(40, 167, 69, 0.9)&#39;; // Vert
-            isCompatible = true;
-        } else if (userScore &gt;= minRequirements.performanceIndex * 0.9) {
-            // Compatible limite (score &gt; 90% de l&#39;indice requis)
-            message = &quot;Compatibilité Limite : Votre configuration est acceptable, mais vous pourriez rencontrer des difficultés pour jouer dans les meilleurs réglages.&quot;;
-            bgColor = &#39;rgb(255, 193, 7, 0.9)&#39;; // Jaune/Orange
+    // Sauvegarder l'état du formulaire dans localStorage
+    function saveState() {
+        const state = {
+            cpu: document.getElementById('userCpu').value,
+            gpu: document.getElementById('userGpu').value,
+            ram: document.getElementById('userRam').value,
+            resolution: document.getElementById('userResolution').value,
+            mode: document.getElementById('simulationMode').value,
+            upscaling: document.getElementById('userUpscaling').value,
+        };
+        // Utiliser le nom du jeu comme clé pour isoler les données
+        localStorage.setItem(`compatibilityState_${currentJeuNom}`, JSON.stringify(state));
+    }
+
+    // Charger l'état précédent depuis localStorage
+    function loadState() {
+        const savedState = localStorage.getItem(`compatibilityState_${currentJeuNom}`);
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            document.getElementById('userCpu').value = state.cpu || '';
+            document.getElementById('userGpu').value = state.gpu || '';
+            document.getElementById('userRam').value = state.ram || '16';
+            document.getElementById('userResolution').value = state.resolution || '1.0';
+            document.getElementById('simulationMode').value = state.mode || 'minimal';
+            document.getElementById('userUpscaling').value = state.upscaling || '1.0';
         } else {
-            // Non compatible
-            message = &quot;Incompatible : Votre configuration semble insuffisante pour les exigences minimales de ce jeu.&quot;;
-            bgColor = &#39;rgb(220, 53, 69, 0.9)&#39;; // Rouge
+            // Si pas d'état sauvegardé, initialiser les valeurs par défaut
+            document.getElementById('userRam').value = '16';
+            document.getElementById('userResolution').value = '1.0';
+            document.getElementById('simulationMode').value = 'minimal';
+            document.getElementById('userUpscaling').value = '1.0';
+        }
+    }
+
+    // Met à jour les cartes d'exigences affichées en fonction du mode sélectionné
+    function updateRequirementsDisplay(mode) {
+        const targetJeu = currentJeuNom in MINIMAL_SPECS_OVERRIDE_MAP ? currentJeuNom : 'Unknown';
+        
+        let requirements;
+        let titleText; // Pour mettre à jour le titre
+
+        if (mode === 'recommended') {
+            requirements = RECOMMENDED_SPECS_MAP[targetJeu] || initialMinRequirements;
+            titleText = "Exigences Recommandées";
+        } else if (mode === 'high') {
+            // NOTE: On utilise les specs RECOMMANDÉES pour le mode HAUT, car c'est la meilleure estimation disponible pour 60 FPS
+            requirements = RECOMMENDED_SPECS_MAP[targetJeu] || initialMinRequirements;
+            titleText = "Exigences Hautes/Ultra";
+        } else { // minimal
+            requirements = MINIMAL_SPECS_OVERRIDE_MAP[targetJeu] || initialMinRequirements;
+            titleText = "Exigences Minimales";
         }
         
-        // --- Affichage du résultat ---
+        // Mise à jour de l'affichage du TITRE
+        systemRequirementsTitle.textContent = titleText;
 
-        resultMessage.textContent = message;
-        resultMessage.style.backgroundColor = bgColor;
-        resultMessage.classList.remove(&#39;d-none&#39;); // Rendre visible
+        // Mise à jour de l'affichage des CARDS
+        document.getElementById('displayCpuMin').textContent = requirements.cpu;
+        document.getElementById('displayGpuMin').textContent = requirements.gpu;
+        document.getElementById('displayRamMin').textContent = requirements.ram + " Go";
+        
+        // La note de correction reste gérée dans le bloc DOMContentLoaded si 'isCorrectionApplied' est true.
+    }
 
-        // Assurer que le texte est lisible (blanc pour le fond sombre)
-        resultMessage.style.color = &#39;#fff&#39;;
-    });
+    // Simule un index de performance GPU basé sur des GPU connus
+    function getGpuPerformanceIndex(gpuName) {
+        // Normalisation et conversion en minuscules
+        const normalizedName = gpuName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        // Carte simplifiée des indices de performance GPU (très arbitraire, 1.0 = GTX 1060 6Go)
+        const gpuMap = {
+            'gtx1050ti': 0.8,
+            'gtx10603go': 1.0,
+            'gtx10606go': 1.2,
+            'gtx1070': 1.6,
+            'gtx1080': 2.0,
+            'rtx2060': 2.2,
+            'rtx2060s': 2.5,
+            'rtx3060': 3.0,
+            'rtx3060ti': 3.5,
+            'rtx3070': 4.0,
+            'rtx4070': 6.0,
+            'rx580': 1.1,
+            'rx5600xt': 1.8,
+            'rx5700xt': 2.3,
+            'rx6700xt': 3.3,
+            'rx7900xtx': 7.0,
+        };
+
+        // Rechercher des correspondances partielles et exactes
+        for (const key in gpuMap) {
+            if (normalizedName.includes(key) || key.includes(normalizedName)) {
+                return gpuMap[key];
+            }
+        }
+
+        // Si non trouvé, tentative d'estimation basée sur la série (ex: 4080 > 4070)
+        let estimate = 1.0;
+        if (normalizedName.includes('rtx40')) estimate = 5.0;
+        else if (normalizedName.includes('rtx30')) estimate = 3.0;
+        else if (normalizedName.includes('rtx20')) estimate = 2.0;
+        else if (normalizedName.includes('gtx16')) estimate = 1.5;
+        else if (normalizedName.includes('gtx10')) estimate = 1.0;
+        
+        // Estime un bonus pour les cartes de la série S/Ti/Super
+        if (normalizedName.includes('ti') || normalizedName.includes('super')) {
+            estimate *= 1.1; 
+        }
+
+        return estimate;
+    }
+
+    // Gestion de la soumission du formulaire
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        saveState(); // Sauvegarde l'état du formulaire
+
+        // 1. Récupération des données utilisateur et de simulation
+        const userGpuInput = document.getElementById('userGpu').value;
+        const userRam = parseInt(document.getElementById('userRam').value);
+        const resolutionMultiplier = parseFloat(document.getElementById('userResolution').value);
+        const upscalingMultiplier = parseFloat(document.getElementById('userUpscaling').value);
+        const simulationMode = document.getElementById('simulationMode').value;
+
+        // 2. Détermination des exigences cibles (basées sur le mode de simulation)
+        let targetRequirements;
+        let targetPerformanceMultiplier; // Le performanceIndex pour le mode de simulation
+        let targetFps;
+
+        const targetJeu = currentJeuNom in MINIMAL_SPECS_OVERRIDE_MAP ? currentJeuNom : 'Unknown';
+        
+        if (simulationMode === 'recommended' || simulationMode === 'high') {
+            targetRequirements = RECOMMENDED_SPECS_MAP[targetJeu] || initialMinRequirements;
+            targetPerformanceMultiplier = targetRequirements.performanceIndex || 2.0;
+            targetFps = baseTargetFPS_High; // 60 FPS
+        } else { // minimal
+            targetRequirements = MINIMAL_SPECS_OVERRIDE_MAP[targetJeu] || initialMinRequirements;
+            targetPerformanceMultiplier = targetRequirements.performanceIndex || 1.0;
+            targetFps = baseTargetFPS_Minimal; // 30 FPS
+        }
+
+        // 3. Comparaison RAM
+        let ramStatus = 'success';
+        if (userRam < targetRequirements.ram) {
+            ramStatus = 'danger';
+        } else if (userRam === targetRequirements.ram && userRam < 16) {
+            ramStatus = 'warning'; // 16 Go est la norme pour les jeux AAA modernes
+        }
+
+        // 4. Comparaison GPU (Index de Performance)
+        const userGpuIndex = getGpuPerformanceIndex(userGpuInput);
+        
+        // Multiplicateur pour compenser la résolution et l'upscaling
+        // Multiplicateur de résolution (résolution plus élevée -> plus exigeant, facteur > 1)
+        const resolutionFactor = resolutionMultiplier * resolutionMultiplier;
+        // Multiplicateur d'upscaling (upscaling -> moins exigeant, facteur < 1)
+        const upscalingFactor = 1.0 / upscalingMultiplier; 
+        
+        // Performance GPU requise ajustée par la résolution et l'upscaling
+        // Le GPU de référence (performanceIndex) est divisé par le facteur d'upscaling et multiplié par le facteur de résolution
+        const requiredGpuIndex = (targetPerformanceMultiplier * resolutionFactor) / upscalingFactor;
+
+        // Ratio de performance de l'utilisateur vs. requis
+        const performanceRatio = userGpuIndex / requiredGpuIndex;
+
+        // 5. Détermination du FPS simulé et du verdict
+        
+        // Estimer le FPS réel (Performance Ratio appliqué au FPS cible)
+        let simulatedFps = Math.round(targetFps * performanceRatio);
+        
+        let gpuStatus = 'success';
+        let verdictText = `Votre configuration devrait atteindre un **FPS simulé de ${simulatedFps}**`;
+
+        if (performanceRatio >= 1.2) {
+            gpuStatus = 'success';
+            verdictText = `**EXCELLENT !** Votre matériel surpasse les exigences. Vous devriez obtenir **${simulatedFps} FPS** dans ce mode.`;
+        } else if (performanceRatio >= 1.0) {
+            gpuStatus = 'success';
+            verdictText = `**OK.** Votre matériel répond parfaitement aux exigences. Attendez-vous à environ **${simulatedFps} FPS**.`;
+        } else if (performanceRatio >= 0.75) {
+            gpuStatus = 'warning';
+            verdictText = `**Attention :** Votre matériel est proche (environ **${simulatedFps} FPS**). Vous devrez peut-être réduire légèrement certains réglages ou utiliser l'upscaling pour stabiliser le framerate.`;
+        } else {
+            gpuStatus = 'danger';
+            verdictText = `**Incompatible !** Votre matériel est nettement inférieur aux exigences (FPS simulé : **${simulatedFps}**). Le jeu sera difficilement jouable.`;
+        }
+        
+        // Ajustement final du verdict si la RAM est critique
+        if (ramStatus === 'danger') {
+            // Si le GPU est bon, le bloquer au statut "Warning"
+            if (gpuStatus === 'success') {
+                gpuStatus = 'warning';
+                verdictText = `**Attention RAM :** Votre carte graphique est suffisante, mais la **RAM (${userRam} Go)** est inférieure aux ${targetRequirements.ram} Go requis. Cela peut causer des freezes ou des plantages. FPS simulé : **${simulatedFps}** (sous réserve de la RAM).`;
+            } else if (gpuStatus !== 'danger') {
+                gpuStatus = 'danger';
+                verdictText = `**DOUBLE PROBLÈME :** RAM (${userRam} Go) et GPU insuffisants. Le jeu ne fonctionnera pas correctement.`;
+            }
+        } else if (ramStatus === 'warning' && gpuStatus === 'success') {
+            // Adoucir le statut du GPU si RAM est en warning
+            gpuStatus = 'warning';
+            verdictText = `**Limite RAM :** Votre matériel est bon, mais la RAM (${userRam} Go) est à la limite des exigences et pourrait limiter la performance globale (${simulatedFps} FPS simulé).`;
+        }
+
+        // 6. Affichage du résultat
+        let alertClass;
+        let textColor = 'text-white'; // Par défaut, texte blanc
+
+        if (gpuStatus === 'success') {
+            alertClass = 'alert-success-simulated';
+        } else if (gpuStatus === 'warning') {
+            alertClass = 'alert-warning-simulated';
+            textColor = colorTextDark; // Texte sombre pour le fond jaune/blanc
+        } else {
+            alertClass = 'alert-danger-simulated';
+        }
+
+        resultMessage.className = `mt-4 p-4 rounded-3 text-center fw-bold ${alertClass} ${textColor}`;
+        resultMessage.innerHTML = `<p class="mb-0">${verdictText}</p>`;
+        resultMessage.classList.remove('d-none');
+    }
+
+    // Lancement de l'initialisation au chargement de la page
+    init();
 });
-
-
 </script>
-
 {% endblock %}
