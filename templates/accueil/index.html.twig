@@ -4,152 +4,217 @@
 
 {% block body %}
     
-    <div class="container mt-4 mb-4">
-        <p>
-            <strong>Votre PC est-il prêt pour l'aventure ?</strong>
-            Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong>
-        </p>
+    <style>
+        .home-card {
+            background-color: rgba(255, 255, 255, 0.95); /* Fond blanc léger */
+            color: #212529; /* Texte sombre */
+            border: none;
+        }
+        .home-card .form-control, .home-card .form-select {
+            background-color: #f8f9fa; /* Champs plus clairs */
+            border: 1px solid #ced4da;
+            color: #212529;
+            text-align: center; /* Centrer le texte pour une meilleure lisibilité */
+        }
+        .form-label-custom {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        /* Style pour centrer les labels au-dessus des inputs */
+        .form-group-centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
 
-        <ul class="list-unstyled">
-            <li><strong>Comment ça marche ?</strong> Entrez vos composants, c'est tout.</li>
-            <li><strong>Configurez votre PC :</strong> Entrez manuellement les trois éléments clés de votre configuration : votre carte graphique, votre processeur et la quantité de RAM. Notre base de données vous aide à trouver vos composants en un instant.</li>
-            <li><strong>Trouvez votre jeu :</strong> Parcourez notre catalogue immense ou utilisez la barre de recherche pour trouver le jeu que vous convoitez.</li>
-            <li><strong>Vérifiez la compatibilité :</strong> Obtenez une analyse claire et immédiate. Nous comparons votre configuration avec les exigences du jeu pour vous dire si vous pourrez y jouer, et à quels réglages.</li>
-            <li><strong>Estimation des FPS :</strong> Nous vous donnons une estimation précise du nombre de FPS que vous pouvez attendre avec votre PC, pour les paramètres graphiques faibles, moyens et ultra.</li>
-            <li><strong>Conseils de mise à niveau :</strong> Si un jeu est trop gourmand pour votre machine, nous vous recommandons le composant précis à améliorer pour atteindre vos objectifs de performance.</li>
-            <li><strong>Guides d'optimisation :</strong> Apprenez à ajuster vos paramètres graphiques pour maximiser votre expérience de jeu, sans avoir besoin de faire une mise à jour matérielle coûteuse.</li>
-        </ul>
+    <div class="container my-5">
         
-        <p class="mt-3">
-            <strong>Aether core est l'outil indispensable de la communauté PC.</strong> Nous vous donnons le pouvoir de faire le bon choix, en toute connaissance de cause.
-        </p>
-    </div>
-
-    <div class="container my-3">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Rechercher un jeu..." aria-label="Rechercher un jeu">
-                    <button class="btn btn-info" type="button">Rechercher</button>
-                </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-4 fw-bold text-success">Aether core</h1>
+                <p class="lead text-white-50">UNLEASH YOUR GAME'S POTENTIAL</p>
+                <p class="text-white-75 mt-4">
+                    <strong>Votre PC est-il prêt pour l'aventure ?</strong> Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong>
+                </p>
             </div>
         </div>
-    </div>
 
-    <div class="container my-3">
-        
         <div class="row justify-content-center">
-            
             <div class="col-lg-8">
-                <header class="text-center mb-5">
-                    <h1 class="display-4 fw-bold text-success">Aether core</h1>
-                    <p class="lead text-white-50">Votre PC est-il prêt pour l'aventure ?</p>
-                </header>
-            </div>
-            
-            <div class="col-lg-8">
-                <div class="card bg-dark text-white shadow-lg p-4 w-100">
+                <div class="card home-card shadow-lg p-4 w-100">
                     <div class="card-body">
-                        <h2 class="card-title text-center text-success mb-4">Configurez votre PC et trouvez votre jeu</h2>
-                        <p class="text-center text-white-50">Entrez manuellement les quatres éléments clés de votre configuration : votre carte graphique, votre processeur, la quantité de RAM et votre résolution. Notre base de données vous aide à trouver vos composants en un instant.</p>
-                        <form>
-                            <div class="accordion" id="accordionConfig">
-                                
-                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                    <h2 class="accordion-header" id="headingCPU">
-                                        <button class="accordion-button bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCPU" aria-expanded="true" aria-controls="collapseCPU">
-                                            <i class="fas fa-microchip me-2"></i> Processeur
-                                        </button>
-                                    </h2>
-                                    <div id="collapseCPU" class="accordion-collapse collapse show" aria-labelledby="headingCPU" data-bs-parent="#accordionConfig">
-                                        <div class="accordion-body">
-                                            <div class="mb-3">
-                                                <label for="cpu" class="form-label">Nom du processeur :</label>
-                                                <input type="text" class="form-control bg-dark text-white border-0" id="cpu" name="cpu" placeholder="Ex: Intel Core i7-12700K" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                    <h2 class="accordion-header" id="headingGPU">
-                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGPU" aria-expanded="false" aria-controls="collapseGPU">
-                                            <i class="fas fa-desktop me-2"></i> Carte graphique
-                                        </button>
-                                    </h2>
-                                    <div id="collapseGPU" class="accordion-collapse collapse" aria-labelledby="headingGPU" data-bs-parent="#accordionConfig">
-                                        <div class="accordion-body">
-                                            <div class="mb-3">
-                                                <label for="gpu" class="form-label">Nom de la carte graphique :</label>
-                                                <input type="text" class="form-control bg-dark text-white border-0" id="gpu" name="gpu" placeholder="Ex: NVIDIA GeForce RTX 3080" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                    <h2 class="accordion-header" id="headingRAM">
-                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRAM" aria-expanded="false" aria-controls="collapseRAM">
-                                            <i class="fas fa-memory me-2"></i> Mémoire RAM
-                                        </button>
-                                    </h2>
-                                    <div id="collapseRAM" class="accordion-collapse collapse" aria-labelledby="headingRAM" data-bs-parent="#accordionConfig">
-                                        <div class="accordion-body">
-                                            <div class="mb-3">
-                                                <label for="ram" class="form-label">Quantité de RAM (en Go) :</label>
-                                                <input type="number" class="form-control bg-dark text-white border-0" id="ram" name="ram" placeholder="Ex: 16" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                    <h2 class="accordion-header" id="headingResolution">
-                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResolution" aria-expanded="false" aria-controls="collapseResolution">
-                                            <i class="fas fa-tv me-2"></i> Résolution d'écran
-                                        </button>
-                                    </h2>
-                                    <div id="collapseResolution" class="accordion-collapse collapse" aria-labelledby="headingResolution" data-bs-parent="#accordionConfig">
-                                        <div class="accordion-body">
-                                            <div class="mb-3">
-                                                <label for="resolution" class="form-label">Sélectionnez la résolution :</label>
-                                                <select class="form-select bg-dark text-white border-0" id="resolution" name="resolution" required>
-                                                    <option value="1080p">1080p (Full HD)</option>
-                                                    <option value="1440p">1440p (QHD)</option>
-                                                    <option value="4k">4K (UHD)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item bg-secondary text-white border-dark mb-3">
-                                    <h2 class="accordion-header" id="headingJeu">
-                                        <button class="accordion-button collapsed bg-secondary text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJeu" aria-expanded="false" aria-controls="collapseJeu">
-                                            <i class="fas fa-gamepad me-2"></i> Jeu
-                                        </button>
-                                    </h2>
-                                    <div id="collapseJeu" class="accordion-collapse collapse" aria-labelledby="headingJeu" data-bs-parent="#accordionConfig">
-                                        <div class="accordion-body">
-                                            <div class="mb-3">
-                                                <label for="jeu" class="form-label">Nom du jeu :</label>
-                                                <input type="text" class="form-control bg-dark text-white border-0" id="jeu" name="jeu" placeholder="Recherchez un jeu..." required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <h2 class="card-title text-center text-primary mb-4">1. Enregistrez votre Configuration PC</h2>
+                        <p class="text-center text-muted">Entrez votre matériel une seule fois pour pré-remplir les tests de compatibilité sur toutes les pages de jeux.</p>
+                        
+                        <form id="saveConfigForm" class="row g-3">
+                            
+                            <div class="col-md-4 form-group-centered">
+                                <label for="userCpu" class="form-label-custom">Processeur (CPU)</label>
+                                <input type="text" class="form-control" id="userCpu" placeholder="Ex: 5600X" required>
                             </div>
                             
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-success btn-lg">
-                                    <i class="fas fa-chart-line me-2"></i> Vérifier la compatibilité
+                            <div class="col-md-4 form-group-centered">
+                                <label for="userGpu" class="form-label-custom">Carte Graphique (GPU)</label>
+                                <input type="text" class="form-control" id="userGpu" placeholder="Ex: 6700XT" required>
+                            </div>
+                            
+                            <div class="col-md-4 form-group-centered">
+                                <label for="userRam" class="form-label-custom">RAM (Go)</label>
+                                <select class="form-select" id="userRam" required>
+                                    <option value="8">8 Go</option>
+                                    <option value="12">12 Go</option>
+                                    <option value="16" selected>16 Go</option>
+                                    <option value="32">32 Go</option>
+                                    <option value="64">64 Go</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mt-4 text-center">
+                                <button type="submit" class="btn btn-primary w-50 fw-bold">
+                                    Enregistrer ma configuration
                                 </button>
                             </div>
+                            <div class="col-12 mt-2 text-center" id="saveMessageContainer">
+                                </div>
                         </form>
                     </div>
                 </div>
             </div>
-            
         </div>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <h2 class="text-center text-info mb-3">2. Cherchez le jeu que vous voulez tester</h2>
+                <div class="input-group input-group-lg shadow-sm">
+                    <input type="text" class="form-control" id="searchGameInput" placeholder="Ex: Elden Ring" aria-label="Rechercher un jeu">
+                    <button class="btn btn-success fw-bold" type="button" id="searchGameButton">
+                        Rechercher
+                    </button>
+                </div>
+                <small class="form-text text-white-50 text-center d-block mt-2">Votre configuration sera utilisée pour le test de compatibilité.</small>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-server me-2"></i> <strong>NOTE IMPORTANTE :</strong> Pour que la recherche vous dirige directement sur la page de détail du jeu, il faut que votre <strong>Contrôleur Symfony</strong> fasse la vérification suivante : 
+                    <br> Si le terme de recherche (`search` ou `q`) donne **EXACTEMENT UN SEUL** résultat, le contrôleur doit effectuer une redirection (`$this->redirectToRoute(...)`) vers la page de détail de ce jeu. Sinon, il affiche la liste des résultats.
+                </div>
+            </div>
+        </div>
+        
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('saveConfigForm');
+        const cpuInput = document.getElementById('userCpu');
+        const gpuInput = document.getElementById('userGpu');
+        const ramSelect = document.getElementById('userRam');
+        const searchButton = document.getElementById('searchGameButton');
+        const searchInput = document.getElementById('searchGameInput');
+        const saveMessageContainer = document.getElementById('saveMessageContainer');
+
+        // Clé de sauvegarde principale pour la configuration utilisateur
+        const GLOBAL_CONFIG_KEY = 'compatibilityState_USER_CONFIG';
+        
+        // --- CHARGEMENT ET SAUVEGARDE D'ÉTAT ---
+        
+        function loadState() {
+            const savedState = localStorage.getItem(GLOBAL_CONFIG_KEY);
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                cpuInput.value = state.cpu || '';
+                gpuInput.value = state.gpu || '';
+                ramSelect.value = state.ram || '16';
+            } else {
+                ramSelect.value = '16';
+            }
+        }
+
+        function saveState(showAlert = true) {
+            const state = {
+                cpu: cpuInput.value,
+                gpu: gpuInput.value,
+                ram: ramSelect.value,
+                // Valeurs par défaut pour les champs manquants sur la page de détail
+                resolution: '1.0', 
+                upscaling: '1.0',  
+                mode: 'minimal'    
+            };
+            
+            // 1. Sauvegarde dans la clé principale de l'utilisateur
+            localStorage.setItem(GLOBAL_CONFIG_KEY, JSON.stringify(state));
+            
+            // 2. Mise à jour de toutes les clés de jeu existantes pour la cohérence
+            for (let i = 0; i < localStorage.length; i++){
+                const key = localStorage.key(i);
+                if (key.startsWith('compatibilityState_') && key !== GLOBAL_CONFIG_KEY) {
+                     try {
+                         const oldState = JSON.parse(localStorage.getItem(key));
+                         oldState.cpu = state.cpu;
+                         oldState.gpu = state.gpu;
+                         oldState.ram = state.ram;
+                         localStorage.setItem(key, JSON.stringify(oldState));
+                     } catch(e) {
+                         // Ignorer les erreurs de parsing pour les autres clés
+                     }
+                }
+            }
+            
+            // Afficher le message de succès UNIQUEMENT si showAlert est vrai
+            if(showAlert) {
+                saveMessageContainer.innerHTML = '<div class="alert alert-success mt-3" role="alert">✅ Configuration enregistrée !</div>';
+                setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
+            }
+        }
+
+        // --- GESTION DE LA RECHERCHE ---
+        
+        function handleSearch() {
+            const query = searchInput.value.trim();
+            
+            // Sauvegarde rapide et silencieuse de la configuration avant de partir
+            if (cpuInput.value.trim() !== '' && gpuInput.value.trim() !== '') {
+                saveState(false); 
+            }
+            
+            if (query.length > 2) {
+                // Redirection vers la route de recherche. Le contrôleur doit faire le choix :
+                // 1. Redirection vers la page de détail (si 1 seul résultat exact)
+                // 2. Affichage des résultats (si 0 ou >1 résultat)
+                const searchUrl = '{{ path("app_jeux") }}' + '?search=' + encodeURIComponent(query);
+                window.location.href = searchUrl;
+            } else {
+                saveMessageContainer.innerHTML = '<div class="alert alert-warning mt-3" role="alert">Veuillez entrer au moins 3 caractères pour la recherche.</div>';
+                setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
+            }
+        }
+        
+        // --- ÉVÉNEMENTS ---
+        
+        // 1. Sauvegarde de la configuration (bouton "Enregistrer")
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveState(true); // Affiche le message de succès
+        });
+
+        // 2. Lancement de la recherche (bouton "Rechercher" ou touche Entrée)
+        searchButton.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch();
+            }
+        });
+
+        // --- INITIALISATION ---
+        loadState();
+    });
+    </script>
 {% endblock %}
