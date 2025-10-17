@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request; // L'objet Request est essentiel pour lire le paramètre 'search'
 
 class JeuController extends AbstractController
 {
@@ -59,7 +60,7 @@ class JeuController extends AbstractController
         $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
         $text = strtolower(trim($text));
         $text = preg_replace('/[^a-z0-9\s-]/', '', $text); 
-        $text = preg_replace('/\s+/', '-', $text);      
+        $text = preg_replace('/\s+/', '-', $text);       
         $text = preg_replace('/-+/', '-', $text);       
         return $text;
     }
@@ -72,20 +73,51 @@ class JeuController extends AbstractController
         return $this->redirectToRoute('app_jeux');
     }
 
-    // --- ROUTE DU CATALOGUE (INDEX) ---
+    // --- ROUTE DU CATALOGUE (INDEX) - MISE À JOUR POUR GÉRER LA RECHERCHE ET LA REDIRECTION ---
     #[Route('/jeux', name: 'app_jeux')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $jeuxAvecSlugs = [];
-        // Ajout du slug à chaque jeu avant de l'envoyer à la vue
+        // 1. Récupérer le terme de recherche depuis l'URL (?search=...)
+        $searchTerm = $request->query->get('search');
+        
+        $jeuxTrouves = [];
+        // Normaliser le terme de recherche pour une comparaison robuste (ex: "bf6" -> "bf6")
+        $termeNormalise = $this->slugify($searchTerm ?? ''); 
+
+        // 2. Parcourir toutes les données pour filtrer et ajouter le slug
         foreach ($this->jeuxData as $jeu) {
             $jeu['slug'] = $this->slugify($jeu['nom']);
-            $jeuxAvecSlugs[] = $jeu;
+            
+            // Si un terme de recherche est fourni, filtrez les jeux
+            if ($searchTerm) {
+                // Normalise le nom du jeu pour la comparaison (ex: "Battlefield 6" -> "battlefield-6")
+                $nomJeuNormalise = $this->slugify($jeu['nom']); 
+                
+                // Vérifie si le terme de recherche normalisé est contenu dans le nom normalisé du jeu
+                if (str_contains($nomJeuNormalise, $termeNormalise)) {
+                    $jeuxTrouves[] = $jeu;
+                }
+            } else {
+                // Si pas de recherche, affichez tout le catalogue
+                $jeuxTrouves[] = $jeu;
+            }
         }
 
-        // Le template devrait être dans templates/jeu/index.html.twig
+        // 3. LOGIQUE DE REDIRECTION AUTOMATIQUE
+        // Si un terme a été recherché ET que la recherche a trouvé EXACTEMENT UN SEUL jeu
+        if ($searchTerm && count($jeuxTrouves) === 1) {
+            $jeuUnique = $jeuxTrouves[0];
+            
+            // Redirection immédiate vers la page de détail de ce jeu
+            return $this->redirectToRoute('app_jeu_detail', [
+                'slug' => $jeuUnique['slug'], 
+            ]);
+        }
+        
+        // 4. AFFICHAGE DE LA PAGE DE CATALOGUE/RÉSULTATS (si 0 ou >1 résultat, ou pas de recherche)
         return $this->render('jeu/index.html.twig', [
-            'jeux' => $jeuxAvecSlugs,
+            'jeux' => $jeuxTrouves,
+            'searchTerm' => $searchTerm, // Utile pour afficher le terme recherché dans le template
         ]);
     }
     

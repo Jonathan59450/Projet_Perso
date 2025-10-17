@@ -2,19 +2,24 @@
 
 {% block title %}Aether core{% endblock %}
 
-{% block body %}
-    
+{% block stylesheets %}
+    <!-- Chargement des dépendances Bootstrap et du style personnalisé -->
+    <!-- Important : Assurez-vous que ces liens sont aussi dans votre base.html.twig ou qu'ils sont inclus dans ce bloc si ce bloc est le seul endroit où vous chargez le CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
+        /* Styles personnalisés pour compléter Bootstrap */
         .home-card {
             background-color: rgba(255, 255, 255, 0.95); /* Fond blanc léger */
             color: #212529; /* Texte sombre */
             border: none;
+            border-radius: 0.75rem; /* Ajout de coins arrondis pour l'esthétique */
         }
         .home-card .form-control, .home-card .form-select {
             background-color: #f8f9fa; /* Champs plus clairs */
             border: 1px solid #ced4da;
             color: #212529;
-            text-align: center; /* Centrer le texte pour une meilleure lisibilité */
+            text-align: center; 
+            border-radius: 0.5rem; /* Coins arrondis pour les champs */
         }
         .form-label-custom {
             font-size: 0.8rem;
@@ -29,41 +34,87 @@
             flex-direction: column;
             align-items: center;
         }
-    </style>
-
-    <div class="container my-5">
         
+        /* Couleurs pour les classes non Bootstrap par défaut */
+        .text-success { color: #10B981 !important; } 
+        .text-primary { color: #3B82F6 !important; } 
+        .text-info { color: #06B6D4 !important; }
+        .text-white-50 { color: rgba(255, 255, 255, 0.5) !important; }
+        .text-white-75 { color: rgba(255, 255, 255, 0.75) !important; }
+        
+        /* Personnalisation des boutons */
+        .btn-primary { 
+            background-color: #3B82F6; 
+            border-color: #3B82F6;
+            transition: all 0.2s;
+            padding: 0.65rem 1.5rem;
+            font-size: 1.05rem;
+            border-radius: 0.5rem;
+        }
+        .btn-primary:hover {
+            background-color: #2563EB;
+            border-color: #2563EB;
+        }
+        .btn-success {
+            background-color: #10B981;
+            border-color: #10B981;
+            transition: all 0.2s;
+            font-size: 1.05rem;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+            border-color: #059669;
+        }
+
+        /* Amélioration de la responsivité du formulaire */
+        @media (max-width: 767.98px) {
+            .form-group-centered {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5 pb-5">
+        
+        <!-- SECTION TITRE ET DESCRIPTION -->
         <div class="row justify-content-center mb-5">
             <div class="col-lg-10 text-center">
                 <h1 class="display-4 fw-bold text-success">Aether core</h1>
                 <p class="lead text-white-50">UNLEASH YOUR GAME'S POTENTIAL</p>
-                <p class="text-white-75 mt-4">
-                    <strong>Votre PC est-il prêt pour l'aventure ?</strong> Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong>
-                </p>
+                <div class="mx-auto" style="max-width: 700px;">
+                    <p class=" mt-4">
+                        <strong>Votre PC est-il prêt pour l'aventure ?</strong> Vous vous demandez si votre configuration est assez puissante pour le dernier jeu tendance ? Ne cherchez plus. Aether core est là pour vous donner la réponse, sans avoir à installer le moindre logiciel. <strong>C'est simple, rapide et entièrement en ligne.</strong>
+                    </p>
+                </div>
             </div>
         </div>
 
+        <!-- 1. ENREGISTREMENT DE LA CONFIGURATION -->
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card home-card shadow-lg p-4 w-100">
                     <div class="card-body">
                         <h2 class="card-title text-center text-primary mb-4">1. Enregistrez votre Configuration PC</h2>
-                        <p class="text-center text-muted">Entrez votre matériel une seule fois pour pré-remplir les tests de compatibilité sur toutes les pages de jeux.</p>
+                        <p class="text-center text-muted mb-4">Entrez votre matériel et vos préférences pour pré-remplir les tests de compatibilité.</p>
                         
-                        <form id="saveConfigForm" class="row g-3">
+                        <form id="saveConfigForm" class="row g-3 align-items-end">
                             
-                            <div class="col-md-4 form-group-centered">
+                            <!-- LIGNE 1 : CPU et GPU -->
+                            <div class="col-md-6 form-group-centered">
                                 <label for="userCpu" class="form-label-custom">Processeur (CPU)</label>
-                                <input type="text" class="form-control" id="userCpu" placeholder="Ex: 5600X" required>
+                                <input type="text" class="form-control" id="userCpu" placeholder="Ex: Ryzen 5 5600X" required>
                             </div>
                             
-                            <div class="col-md-4 form-group-centered">
+                            <div class="col-md-6 form-group-centered">
                                 <label for="userGpu" class="form-label-custom">Carte Graphique (GPU)</label>
-                                <input type="text" class="form-control" id="userGpu" placeholder="Ex: 6700XT" required>
+                                <input type="text" class="form-control" id="userGpu" placeholder="Ex: Radeon RX 6700XT" required>
                             </div>
                             
-                            <div class="col-md-4 form-group-centered">
-                                <label for="userRam" class="form-label-custom">RAM (Go)</label>
+                            <!-- LIGNE 2 : RAM et RESOLUTION -->
+                            <div class="col-md-6 form-group-centered mt-4">
+                                <label for="userRam" class="form-label-custom">Mémoire Vive (RAM)</label>
                                 <select class="form-select" id="userRam" required>
                                     <option value="8">8 Go</option>
                                     <option value="12">12 Go</option>
@@ -73,20 +124,31 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-6 form-group-centered mt-4">
+                                <label for="userResolution" class="form-label-custom">Résolution cible</label>
+                                <select class="form-select" id="userResolution" required>
+                                    <option value="1080p" selected>Full HD (1920x1080)</option>
+                                    <option value="1440p">QHD (2560x1440)</option>
+                                    <option value="4k">4K (3840x2160)</option>
+                                    <option value="ultrawide">Ultrawide (3440x1440)</option>
+                                </select>
+                            </div>
+
                             <div class="col-12 mt-4 text-center">
                                 <button type="submit" class="btn btn-primary w-50 fw-bold">
                                     Enregistrer ma configuration
                                 </button>
                             </div>
                             <div class="col-12 mt-2 text-center" id="saveMessageContainer">
-                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="row justify-content-center mt-5">
+        <!-- 2. RECHERCHE DE JEU -->
+        <div class="row justify-content-center mt-5 pt-4">
             <div class="col-lg-8">
                 <h2 class="text-center text-info mb-3">2. Cherchez le jeu que vous voulez tester</h2>
                 <div class="input-group input-group-lg shadow-sm">
@@ -98,123 +160,229 @@
                 <small class="form-text text-white-50 text-center d-block mt-2">Votre configuration sera utilisée pour le test de compatibilité.</small>
             </div>
         </div>
-        
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-8">
-                <div class="alert alert-warning text-center">
-                    <i class="fas fa-server me-2"></i> <strong>NOTE IMPORTANTE :</strong> Pour que la recherche vous dirige directement sur la page de détail du jeu, il faut que votre <strong>Contrôleur Symfony</strong> fasse la vérification suivante : 
-                    <br> Si le terme de recherche (`search` ou `q`) donne **EXACTEMENT UN SEUL** résultat, le contrôleur doit effectuer une redirection (`$this->redirectToRoute(...)`) vers la page de détail de ce jeu. Sinon, il affiche la liste des résultats.
+
+        <!-- SECTION À PROPOS -->
+        <div class="row justify-content-center mt-5 pt-5 text-center">
+            <div class="col-lg-10">
+                <h3 class="font-bold text-xl text-info">Pourquoi Aether core ?</h3>
+                <div class="mx-auto mt-3" style="max-width: 800px;">
+                    <p class=" text-base">
+                        Dans le monde du jeu, la compatibilité matérielle est essentielle. Notre mission est de simplifier l'évaluation de la performance. 
+                        En enregistrant votre configuration une seule fois (CPU, GPU, RAM et Résolution), nous pouvons rapidement calculer si un jeu tournera sur votre machine, 
+                        en comparant vos composants aux configurations minimales et recommandées. Pas de téléchargement, pas de complications, juste la réponse que vous cherchez.
+                    </p>
                 </div>
             </div>
         </div>
-        
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('saveConfigForm');
-        const cpuInput = document.getElementById('userCpu');
-        const gpuInput = document.getElementById('userGpu');
-        const ramSelect = document.getElementById('userRam');
-        const searchButton = document.getElementById('searchGameButton');
-        const searchInput = document.getElementById('searchGameInput');
-        const saveMessageContainer = document.getElementById('saveMessageContainer');
+    <script type="module">
+        // --- IMPORTS FIREBASE ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Clé de sauvegarde principale pour la configuration utilisateur
-        const GLOBAL_CONFIG_KEY = 'compatibilityState_USER_CONFIG';
-        
-        // --- CHARGEMENT ET SAUVEGARDE D'ÉTAT ---
-        
-        function loadState() {
-            const savedState = localStorage.getItem(GLOBAL_CONFIG_KEY);
-            if (savedState) {
-                const state = JSON.parse(savedState);
-                cpuInput.value = state.cpu || '';
-                gpuInput.value = state.gpu || '';
-                ramSelect.value = state.ram || '16';
-            } else {
-                ramSelect.value = '16';
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('saveConfigForm');
+            const cpuInput = document.getElementById('userCpu');
+            const gpuInput = document.getElementById('userGpu');
+            const ramSelect = document.getElementById('userRam');
+            // NOUVEAU : Champ Résolution
+            const resolutionSelect = document.getElementById('userResolution'); 
+
+            const searchButton = document.getElementById('searchGameButton');
+            const searchInput = document.getElementById('searchGameInput');
+            const saveMessageContainer = document.getElementById('saveMessageContainer');
+
+            // --- VARIABLES GLOBALES FIREBASE (Mandatoires) ---
+            // Note: Ces variables sont fournies par l'environnement Canvas
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+            let app, db, auth, userId = null;
+
+            // --- FONCTIONS FIREBASE ---
+
+            /**
+             * Initialise Firebase et gère l'authentification.
+             */
+            async function setupFirebase() {
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Configuration Firebase non disponible.");
+                    return;
+                }
+                
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                setLogLevel('debug');
+                
+                try {
+                    await setPersistence(auth, browserLocalPersistence);
+
+                    if (initialAuthToken) {
+                        const userCredential = await signInWithCustomToken(auth, initialAuthToken);
+                        userId = userCredential.user.uid;
+                        console.log("Connecté avec jeton personnalisé. User ID:", userId);
+                    } else {
+                        const userCredential = await signInAnonymously(auth);
+                        userId = userCredential.user.uid;
+                        console.log("Connecté anonymement. User ID:", userId);
+                    }
+                } catch (error) {
+                    console.error("Erreur d'authentification Firebase:", error);
+                    try {
+                        const userCredential = await signInAnonymously(auth);
+                        userId = userCredential.user.uid;
+                    } catch (anonError) {
+                        console.error("Échec de la connexion anonyme:", anonError);
+                        saveMessageContainer.innerHTML = '<div class="alert alert-danger mt-3" role="alert">Authentification échouée. Sauvegarde désactivée.</div>';
+                        return;
+                    }
+                }
+                
+                if (userId) {
+                    loadState();
+                }
             }
-        }
 
-        function saveState(showAlert = true) {
-            const state = {
-                cpu: cpuInput.value,
-                gpu: gpuInput.value,
-                ram: ramSelect.value,
-                // Valeurs par défaut pour les champs manquants sur la page de détail
-                resolution: '1.0', 
-                upscaling: '1.0',  
-                mode: 'minimal'    
-            };
-            
-            // 1. Sauvegarde dans la clé principale de l'utilisateur
-            localStorage.setItem(GLOBAL_CONFIG_KEY, JSON.stringify(state));
-            
-            // 2. Mise à jour de toutes les clés de jeu existantes pour la cohérence
-            for (let i = 0; i < localStorage.length; i++){
-                const key = localStorage.key(i);
-                if (key.startsWith('compatibilityState_') && key !== GLOBAL_CONFIG_KEY) {
-                     try {
-                         const oldState = JSON.parse(localStorage.getItem(key));
-                         oldState.cpu = state.cpu;
-                         oldState.gpu = state.gpu;
-                         oldState.ram = state.ram;
-                         localStorage.setItem(key, JSON.stringify(oldState));
-                     } catch(e) {
-                         // Ignorer les erreurs de parsing pour les autres clés
-                     }
+            /**
+             * Retourne la référence au document de configuration utilisateur dans Firestore.
+             */
+            function getUserConfigRef() {
+                if (!db || !userId) return null;
+                // Chemin privé: /artifacts/{appId}/users/{userId}/configs/user-config
+                const path = `artifacts/${appId}/users/${userId}/configs/user-config`;
+                return doc(db, path);
+            }
+
+            /**
+             * Charge la configuration de l'utilisateur depuis Firestore et remplit les champs.
+             */
+            async function loadState() {
+                const configRef = getUserConfigRef();
+                if (!configRef) return;
+                
+                try {
+                    const docSnap = await getDoc(configRef);
+                    if (docSnap.exists()) {
+                        const state = docSnap.data();
+                        cpuInput.value = state.cpu || '';
+                        gpuInput.value = state.gpu || '';
+                        
+                        // Chargement RAM
+                        if (ramSelect.querySelector(`option[value="${state.ram}"]`)) {
+                            ramSelect.value = state.ram;
+                        } else {
+                            ramSelect.value = '16'; 
+                        }
+                        
+                        // Chargement Résolution (NOUVEAU)
+                        if (resolutionSelect.querySelector(`option[value="${state.resolution}"]`)) {
+                            resolutionSelect.value = state.resolution;
+                        } else {
+                            resolutionSelect.value = '1080p'; // Valeur par défaut
+                        }
+
+                        console.log("Configuration chargée:", state);
+                        
+                        saveMessageContainer.innerHTML = '<div class="alert alert-info mt-3 py-1" role="alert">Configuration chargée depuis Firestore.</div>';
+                        setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
+                        
+                    } else {
+                        // Configuration par défaut si aucune n'existe
+                        ramSelect.value = '16';
+                        resolutionSelect.value = '1080p';
+                    }
+                } catch (e) {
+                    console.error("Erreur lors du chargement de la configuration depuis Firestore:", e);
+                }
+            }
+
+            /**
+             * Sauvegarde la configuration de l'utilisateur dans Firestore.
+             * @param {boolean} showAlert - Indique si un message de succès doit être affiché.
+             */
+            async function saveState(showAlert = true) {
+                const configRef = getUserConfigRef();
+                if (!configRef) {
+                    console.error("Impossible de sauvegarder : Firebase ou UserId non prêt.");
+                    if (showAlert) {
+                        saveMessageContainer.innerHTML = '<div class="alert alert-danger mt-3 py-1" role="alert">Erreur de sauvegarde : Authentification non établie.</div>';
+                        setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 5000);
+                    }
+                    return;
+                }
+
+                const state = {
+                    cpu: cpuInput.value.trim(),
+                    gpu: gpuInput.value.trim(),
+                    ram: ramSelect.value,
+                    // NOUVEAU : Sauvegarde de la résolution
+                    resolution: resolutionSelect.value,
+                    // Valeurs par défaut conservées pour l'instant
+                    upscaling: '1.0',  
+                    mode: 'minimal', 
+                    updatedAt: serverTimestamp() 
+                };
+                
+                try {
+                    await setDoc(configRef, state, { merge: true });
+                    
+                    if (showAlert) {
+                        saveMessageContainer.innerHTML = '<div class="alert alert-success mt-3 py-1" role="alert">✅ Configuration enregistrée dans Firestore !</div>';
+                        setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
+                    }
+                    
+                } catch (e) {
+                    console.error("Erreur lors de la sauvegarde de la configuration dans Firestore:", e);
+                    if (showAlert) {
+                        saveMessageContainer.innerHTML = '<div class="alert alert-danger mt-3 py-1" role="alert">Erreur de sauvegarde : ' + e.message + '</div>';
+                        setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 5000);
+                    }
                 }
             }
             
-            // Afficher le message de succès UNIQUEMENT si showAlert est vrai
-            if(showAlert) {
-                saveMessageContainer.innerHTML = '<div class="alert alert-success mt-3" role="alert">✅ Configuration enregistrée !</div>';
-                setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
-            }
-        }
-
-        // --- GESTION DE LA RECHERCHE ---
-        
-        function handleSearch() {
-            const query = searchInput.value.trim();
+            // --- GESTION DE LA RECHERCHE ---
             
-            // Sauvegarde rapide et silencieuse de la configuration avant de partir
-            if (cpuInput.value.trim() !== '' && gpuInput.value.trim() !== '') {
-                saveState(false); 
+            async function handleSearch() {
+                const query = searchInput.value.trim();
+                
+                // Sauvegarde rapide et silencieuse de la configuration si les champs sont remplis
+                if (cpuInput.value.trim() !== '' && gpuInput.value.trim() !== '') {
+                    // On ne bloque pas l'interface en attendant la sauvegarde
+                    saveState(false).catch(e => console.error("Sauvegarde silencieuse échouée:", e));
+                }
+                
+                if (query.length > 2) {
+                    // Redirection vers la route de recherche Symfony
+                    const searchUrl = '{{ path("app_jeux") }}' + '?search=' + encodeURIComponent(query);
+                    window.location.href = searchUrl;
+                } else {
+                    saveMessageContainer.innerHTML = '<div class="alert alert-warning mt-3 py-1" role="alert">Veuillez entrer au moins 3 caractères pour la recherche.</div>';
+                    setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
+                }
             }
             
-            if (query.length > 2) {
-                // Redirection vers la route de recherche. Le contrôleur doit faire le choix :
-                // 1. Redirection vers la page de détail (si 1 seul résultat exact)
-                // 2. Affichage des résultats (si 0 ou >1 résultat)
-                const searchUrl = '{{ path("app_jeux") }}' + '?search=' + encodeURIComponent(query);
-                window.location.href = searchUrl;
-            } else {
-                saveMessageContainer.innerHTML = '<div class="alert alert-warning mt-3" role="alert">Veuillez entrer au moins 3 caractères pour la recherche.</div>';
-                setTimeout(() => { saveMessageContainer.innerHTML = ''; }, 3000);
-            }
-        }
-        
-        // --- ÉVÉNEMENTS ---
-        
-        // 1. Sauvegarde de la configuration (bouton "Enregistrer")
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            saveState(true); // Affiche le message de succès
-        });
-
-        // 2. Lancement de la recherche (bouton "Rechercher" ou touche Entrée)
-        searchButton.addEventListener('click', handleSearch);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+            // --- ÉVÉNEMENTS ---
+            
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                handleSearch();
-            }
-        });
+                saveState(true); 
+            });
 
-        // --- INITIALISATION ---
-        loadState();
-    });
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSearch();
+                }
+            });
+
+            // --- INITIALISATION ---
+            setupFirebase();
+        });
     </script>
 {% endblock %}
