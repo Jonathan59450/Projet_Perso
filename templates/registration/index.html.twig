@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+{# --- CSS PERSONNALISÉ POUR L'EFFET VERRE DÉPOLI ET LE FOND --- #}
+<style>
+/* Dégradé de fond sombre et subtil */
+body {
+background: linear-gradient(135deg, #1f1c2c 0%, #000000 100%);
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+    /* Conteneur principal de l'effet verre */
+    .glass-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        padding: 30px;
+        color: white;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    /* Style des inputs dans le verre */
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.15); /* Inputs légèrement visibles */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: #66ccff;
+        box-shadow: 0 0 0 0.25rem rgba(102, 204, 255, 0.5); /* Bleu clair */
+    }
+
+    /* Style pour les erreurs de validation */
+    .is-invalid {
+        border-color: #ff6666 !important;
+    }
+    .invalid-feedback {
+        color: #ff6666 !important;
+    }
+</style>
+
+{# --- CONTENU PRINCIPAL DU FORMULAIRE --- #}
+<div class="glass-container">
+    <h1 class="text-center mb-4" style="font-size: 2.5rem;">
+        Créer un compte
+    </h1>
+    
+    {# Affichage des messages flash (si redirection après soumission) #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(registrationForm) }}
+        
+        {# Email #}
+        <div class="mb-4">
+            {{ form_errors(registrationForm.email) }}
+            {{ form_widget(registrationForm.email, {
+                'attr': {
+                    'placeholder': 'Votre adresse email' 
+                }
+            }) }}
+        </div>
+        
+        {# Mots de passe #}
+        <div class="row">
+            {# Mot de passe principal #}
+            <div class="col-md-6 mb-4">
+                {{ form_errors(registrationForm.plainPassword.first) }}
+                {{ form_widget(registrationForm.plainPassword.first, {
+                    'attr': {
+                        'placeholder': 'Mot de passe (8 caractères min.)' 
+                    }
+                }) }}
+            </div>
+
+            {# Confirmation du mot de passe #}
+            <div class="col-md-6 mb-4">
+                {{ form_errors(registrationForm.plainPassword.second) }}
+                {{ form_widget(registrationForm.plainPassword.second, {
+                    'attr': {
+                        'placeholder': 'Confirmer le mot de passe' 
+                    }
+                }) }}
+            </div>
+        </div>
+
+        {# Conditions Générales #}
+        <div class="form-check mb-4">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            <label class="form-check-label" for="{{ field_name(registrationForm.agreeTerms) }}">
+                J'accepte les <a href="#" class="text-info text-decoration-none">Conditions Générales d'Utilisation</a>
+            </label>
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        {# Bouton de Soumission #}
+        <button type="submit" class="btn btn-light btn-lg w-100 mt-2 shadow-lg">
+            S'inscrire et commencer l'aventure
+        </button>
+
+        {# Lien de connexion #}
+        <p class="mt-3 text-center">
+            <small>Déjà un compte ? <a href="{{ path('app_login') }}" class="text-info text-decoration-none">Connectez-vous ici</a></small>
+        </p>
+
+    {{ form_end(registrationForm) }}
+</div>
+
+
+{% endblock %}
