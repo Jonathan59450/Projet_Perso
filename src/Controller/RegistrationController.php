@@ -8,45 +8,40 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Attribute\Route;
+// N'oubliez pas d'inclure les autres use nécessaires si vous avez la logique de hachage de mot de passe et d'authentification.
 
 class RegistrationController extends AbstractController
 {
     #[Route('/registration', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // 1. Création du formulaire et hydratation de l'entité User
+        // 1. Créer une nouvelle entité User
         $user = new User();
+        
+        // 2. Créer le formulaire
+        // Assurez-vous que le nom de la variable ici (registrationForm) correspond à ce qui est utilisé dans le template Twig.
         $form = $this->createForm(RegistrationFormType::class, $user);
+        
+        // 3. Gérer la soumission du formulaire (cette partie est pour le traitement, pas seulement l'affichage)
         $form->handleRequest($request);
 
-        // 2. Traitement du formulaire soumis
+        // Cette partie gère la logique d'enregistrement après la soumission
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // 3. Hachage du mot de passe (crucial pour la sécurité !)
-            $plainPassword = $form->get('plainPassword')->getData();
-            $hashedPassword = $userPasswordHasher->hashPassword(
-                $user,
-                $plainPassword
-            );
-            $user->setPassword($hashedPassword);
-            
-            // 4. Sauvegarde de l'utilisateur en base de données
-            $entityManager->persist($user);
-            $entityManager->flush();
-            
-            // 5. Message de succès et Redirection (vers la page de connexion)
-            $this->addFlash('success', 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.');
-            
-            // Redirige l'utilisateur vers la page de connexion
-            return $this->redirectToRoute('app_login'); // Assurez-vous que 'app_login' est la bonne route
+            // Logique de hachage du mot de passe et enregistrement dans la BDD
+            // ... (à compléter)
+
+            // Exemple simple de persistance (sans hachage de mot de passe)
+            // $entityManager->persist($user);
+            // $entityManager->flush();
+
+            // Redirection après succès
+            // return $this->redirectToRoute('app_home');
         }
 
-        // 6. Rendu du template
+        // 4. Passer le formulaire à la vue
         return $this->render('registration/index.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView(), // C'EST CETTE LIGNE QUI EST CRUCIALE !
         ]);
     }
 }
