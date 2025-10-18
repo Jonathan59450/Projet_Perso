@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - Aether core{% endblock %}
+
+{% block stylesheets %}
+    {#
+    // ATTENTION: Les styles personnalisés définis dans la page d'accueil (home-card, form-label-custom, etc.)
+    // doivent être déplacés dans votre fichier CSS principal ou dans votre 'base.html.twig'
+    // pour être disponibles ici. Pour cet exemple, je suppose qu'ils y sont.
+    // Si ce n'est pas le cas, vous devez copier le bloc <style> de votre page d'accueil ici.
+    #}
+    {{ parent() }} 
+    
+    <style>
+        /* Si vous n'avez pas déplacé les styles de la page d'accueil dans base.html.twig, 
+           décommentez la partie ci-dessous et copiez-y vos styles personnalisés (home-card, btn-primary, etc.) */
+        /*
+        .home-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #212529;
+            border: none;
+            border-radius: 0.75rem;
+        }
+        .form-label-custom {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .text-success { color: #10B981 !important; }
+        .text-primary { color: #3B82F6 !important; } 
+        .btn-primary { 
+            background-color: #3B82F6; 
+            border-color: #3B82F6;
+            transition: all 0.2s;
+            padding: 0.65rem 1.5rem;
+            font-size: 1.05rem;
+            border-radius: 0.5rem;
+        }
+        .btn-primary:hover {
+            background-color: #2563EB;
+            border-color: #2563EB;
+        }
+        */
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5 pb-5">
+        
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-4 fw-bold text-success">Contactez Aether Core</h1>
+                <p class="lead text-white-50">Une question ? Un problème ? Nous sommes là pour vous aider.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center g-4">
+            
+            <div class="col-lg-6">
+                <div class="card home-card shadow-lg p-4 w-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-center text-primary mb-4">Envoyer un Message</h2>
+                        
+                        {# 
+                           // NOTE SYMFONY: Remplacez ce formulaire statique par la fonction 
+                           // {{ form_start(contact_form) }} et {{ form_row(...) }} 
+                           // une fois que vous aurez créé votre `ContactFormType` dans Symfony.
+                        #}
+                        <form id="contactForm" method="POST" action="#"> 
+                            
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label for="contactName" class="form-label-custom">Nom / Pseudo</label>
+                                    <input type="text" class="form-control" id="contactName" placeholder="Votre nom" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contactEmail" class="form-label-custom">Adresse Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="nom@exemple.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contactSubject" class="form-label-custom">Sujet de votre message</label>
+                                <select class="form-select" id="contactSubject" required>
+                                    <option value="" selected disabled>Choisissez un sujet</option>
+                                    <option value="bug">Signaler un bug</option>
+                                    <option value="suggestion">Suggestion de fonctionnalité</option>
+                                    <option value="autre">Autre question</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="contactMessage" class="form-label-custom">Votre Message</label>
+                                <textarea class="form-control" id="contactMessage" rows="5" placeholder="Écrivez votre message ici..." required></textarea>
+                            </div>
+                            
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary w-75 fw-bold">
+                                    Envoyer le Message 🚀
+                                </button>
+                            </div>
+                            
+                            <div class="col-12 mt-3 text-center" id="contactMessageStatus">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card home-card shadow-lg p-4 h-100">
+                    <div class="card-body">
+                        <h3 class="card-title text-center text-info mb-4">Informations Utiles</h3>
+                        
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-2">Support Technique</h5>
+                            <p class="text-secondary small">
+                                Pour les questions concernant la compatibilité PC, l'envoi du formulaire est la meilleure option.
+                            </p>
+                            <p class="mb-0 small"><strong class="text-dark">Délai de réponse :</strong> 24h - 48h</p>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-2">Réseaux Sociaux</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-1"><a href="#" class="text-info text-decoration-none">🐦 X (Twitter) : @AetherCoreTech</a></li>
+                                <li class="mb-1"><a href="#" class="text-info text-decoration-none">💬 Discord : Invitation</a></li>
+                            </ul>
+                            <p class="text-secondary small">
+                                Suivez-nous pour les mises à jour et les annonces !
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-0">
+                            <h5 class="text-primary mb-2">Siège Social (Fictif)</h5>
+                            <address class="small text-secondary">
+                                Aether Core Headquarters<br>
+                                123 Core Way, Game City, PC 90210
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    {# 
+        // NOTE: Le script est ici pour montrer un exemple, mais un véritable 
+        // formulaire Symfony gérera la soumission côté serveur.
+    #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const statusDiv = document.getElementById('contactMessageStatus');
+
+            form.addEventListener('submit', function(e) {
+                // Si vous utilisez Symfony, vous enlèverez l'e.preventDefault() et laisserez le formulaire se soumettre.
+                e.preventDefault(); 
+                
+                statusDiv.innerHTML = '<div class="alert alert-warning mt-3 py-1" role="alert">Envoi en cours...</div>';
+                
+                // Simuler une requête AJAX réussie
+                setTimeout(() => {
+                    // En cas de succès:
+                    statusDiv.innerHTML = '<div class="alert alert-success mt-3 py-1" role="alert">✅ Message envoyé ! Nous vous répondrons bientôt.</div>';
+                    form.reset();
+                    
+                    // En cas d'erreur (exemple):
+                    // statusDiv.innerHTML = '<div class="alert alert-danger mt-3 py-1" role="alert">❌ Erreur lors de l\'envoi. Veuillez réessayer plus tard.</div>';
+                }, 1500);
+            });
+        });
+    </script>
+{% endblock %}
