@@ -1,66 +1,88 @@
-{# templates/inscription/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Inscription - Aether core{% endblock %}
 
 {% block body %}
+    {# Fond d'écran sombre ou image de fond supposée par les classes text-white #}
     <div class="container my-5 pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8">
 
-                <div class="card home-card shadow-lg p-4 w-100">
-                    <div class="card-body">
-                        <h1 class="card-title text-center text-success mb-4 fw-bold">Créer un Compte</h1>
+                {# Affichage des messages flash #}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                {# Le Card Container pour le formulaire #}
+                <div class="card home-card shadow-xl p-5 w-100 border-0 rounded-3">
+                    <div class="card-body p-0">
+                        {# Titre mis en évidence #}
+                        <h1 class="card-title text-center text-success mb-5 fw-bolder text-3xl">Créer un compte Aether</h1>
                         
-                        {# 
-                            ⚠️ IMPORTANT : Une fois le formulaire Symfony créé (avec make:form), 
-                            vous remplacerez ce bloc par : {{ form_start(registrationForm) }} et {{ form_row(...) }}
-                        #}
-                        <form method="post" action="{{ path('app_inscription') }}"> 
-                            
-                            <div class="mb-3">
-                                <label for="inputEmail" class="form-label-custom">Adresse Email</label>
-                                <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="email@exemple.com" required autofocus>
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                            {# 1. EMAIL #}
+                            <div class="mb-4">
+                                {{ form_row(registrationForm.email, {
+                                    label: 'Adresse Email',
+                                    attr: {'placeholder': 'email@exemple.com', 'class': 'form-control form-control-lg'}
+                                }) }}
                             </div>
 
-                            <div class="mb-3">
-                                <label for="inputUsername" class="form-label-custom">Nom d'utilisateur</label>
-                                <input type="text" name="username" id="inputUsername" class="form-control" autocomplete="username" placeholder="Pseudo" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="inputPassword" class="form-label-custom">Mot de passe</label>
-                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="new-password" required>
+                            {# 2. NOM D'UTILISATEUR #}
+                            <div class="mb-4">
+                                {{ form_row(registrationForm.username, {
+                                    label: 'Nom d\'utilisateur',
+                                    attr: {'placeholder': 'Choisissez un nom unique', 'class': 'form-control form-control-lg'}
+                                }) }}
                             </div>
                             
-                            <div class="mb-5">
-                                <label for="inputConfirmPassword" class="form-label-custom">Confirmer Mot de passe</label>
-                                <input type="password" name="confirm_password" id="inputConfirmPassword" class="form-control" autocomplete="new-password" required>
+                            {# 3. MOTS DE PASSE (FIRST / SECOND) #}
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.plainPassword.first, {
+                                        label: 'Mot de passe',
+                                        attr: {'placeholder': 'Minimum 6 caractères', 'class': 'form-control form-control-lg'}
+                                    }) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(registrationForm.plainPassword.second, {
+                                        label: 'Confirmer le mot de passe',
+                                        attr: {'class': 'form-control form-control-lg'}
+                                    }) }}
+                                </div>
                             </div>
                             
-                            {# Checkbox de consentement, souvent obligatoire #}
-                            <div class="checkbox mb-4 text-center">
-                                <label class="small">
-                                    <input type="checkbox" name="agreeTerms" required> 
-                                    J'accepte les 
-                                    {# 🚀 CORRECTION APPLIQUÉE ICI 🚀 #}
-                                    <a href="{{ path('app_cgu') }}" class="text-primary text-decoration-none" target="_blank">conditions d'utilisation</a>.
-                                </label>
+                            {# 4. CONDITIONS D'UTILISATION - Amélioration de l'alignement #}
+                            <div class="mb-5 d-flex align-items-center">
+                                {{ form_row(registrationForm.agreeTerms, {
+                                    label: 'J\'accepte les conditions d\'utilisation et la politique de confidentialité.',
+                                    row_attr: {'class': 'form-check m-0'}, 
+                                    label_attr: {'class': 'form-check-label small ms-2 text-muted'}, 
+                                    attr: {'class': 'form-check-input'}
+                                }) }}
                             </div>
 
-                            <div class="col-12 text-center">
-                                <button class="btn btn-success w-75 fw-bold" type="submit">
+                            {# Bouton S'inscrire #}
+                            <div class="col-12 text-center mt-3">
+                                <button type="submit" class="btn btn-success w-100 fw-bold btn-lg shadow-lg hover:shadow-2xl transition duration-300 ease-in-out">
                                     S'inscrire
                                 </button>
                             </div>
-                        </form>
+
+                            {{ form_rest(registrationForm) }}
+                        
+                        {{ form_end(registrationForm) }}
                         
                     </div>
                 </div>
 
-                <div class="text-center mt-3 text-white">
-                    Déjà un compte ? <a href="{{ path('app_connexion') }}" class="text-warning fw-bold text-decoration-none">Se connecter</a>
+                {# Lien vers la page de connexion #}
+                <div class="text-center mt-4 text-white">
+                    Déjà un compte ? <a href="{{ path('app_login') }}" class="text-warning fw-bolder text-decoration-none hover:text-yellow-400">Se connecter ici</a>
                 </div>
 
             </div>

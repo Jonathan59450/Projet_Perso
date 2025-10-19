@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de Bord - Bienvenue!{% endblock %}
+
+{% block body %}
+<div class="container my-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            {# Le Card Container pour la Bienvenue #}
+            <div class="card home-card shadow-xl p-5 w-100 border-0 rounded-3 text-center">
+                
+                <h1 class="text-success mb-3 fw-bolder text-4xl">
+                    Félicitations !
+                </h1>
+                
+                <p class="lead mb-4 text-muted">
+                    Votre compte Aether Core a été créé avec succès.
+                </p>
+                
+                {% if app.user %}
+                    {# IMPORTANT : app.user.username suppose que vous avez un champ 'username' dans l'entité User. #}
+                    {# Si vous n'avez que 'email', utilisez app.user.email #}
+                    <p class="text-xl mb-5">
+                        Bienvenue, <strong class="text-primary fw-bold">{{ app.user.username|default(app.user.email) }}</strong> !
+                    </p>
+                {% endif %}
+
+                {# Bouton principal pour continuer - CORRECTION DE L'URL #}
+                <div class="d-grid gap-2 mx-auto" style="max-width: 300px;">
+                    <a href="{{ path('app_home') }}" class="btn btn-success btn-lg fw-bold shadow-lg">
+                        Accéder au Tableau de Bord
+                    </a>
+                </div>
+
+                <div class="mt-5 pt-3 border-top mx-auto" style="max-width: 400px;">
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-warning btn-sm">
+                        Se Déconnecter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

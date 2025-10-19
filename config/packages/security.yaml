@@ -8,8 +8,8 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
-        # used to reload user from session & other features (e.g. switch_user)
+                property: email # Le champ utilisé pour l'identification
+    
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,18 +18,36 @@ security:
             lazy: true
             provider: app_user_provider
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
+            # 🚀 AJOUT DE LA CONFIGURATION DE CONNEXION (FORM_LOGIN) 🚀
+            form_login:
+                login_path: app_login       # Route pour afficher le formulaire de connexion (GET)
+                check_path: app_login       # Route qui traite la soumission du formulaire (POST)
+                enable_csrf: true
+                # 🛠️ CORRECTION : Remplacer 'target' par 'default_target_path'
+                default_target_path: app_home # Redirection après succès. Assurez-vous que 'app_home' existe.
+                username_parameter: email   # Nom du champ d'identification dans le formulaire
+                password_parameter: password # Nom du champ du mot de passe dans le formulaire
+            
+            # 🚀 AJOUT DE LA CONFIGURATION DE DÉCONNEXION 🚀
+            logout:
+                path: app_logout
+                target: app_home # Redirection après déconnexion
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    # 🚀 AJOUT DE LA GESTION DES ACCÈS 🚀
     access_control:
+         # Permettre à tout le monde d'accéder aux pages de connexion et d'inscription
+        - { path: ^/connexion, roles: PUBLIC_ACCESS }
+        - { path: ^/inscription, roles: PUBLIC_ACCESS }
+        # Exemple: Interdire l'accès à /admin aux non-admins
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
+        # Exiger une connexion pour toutes les autres pages (si vous décommentez ceci)
+        # - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        
 when@test:
     security:
         password_hashers:
