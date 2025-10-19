@@ -1,0 +1,70 @@
+{# templates/connexion/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Aether core{% endblock %}
+
+{% block body %}
+    <div class="container my-5 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+
+                <div class="card home-card shadow-lg p-4 w-100">
+                    <div class="card-body">
+                        <h1 class="card-title text-center text-warning mb-4 fw-bold">Connexion</h1>
+                        
+                        {# ⚠️ IMPORTANT : Affichage de l'erreur de connexion #}
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {# 
+                            Le formulaire de connexion de Symfony DOIT pointer vers la route 'app_connexion' 
+                            (ou la route configurée dans security.yaml si différente) et la méthode doit être POST.
+                        #}
+                        <form method="post" action="{{ path('app_connexion') }}"> 
+                            
+                            <div class="mb-4">
+                                <label for="inputEmail" class="form-label-custom">Email / Nom d'utilisateur</label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                            </div>
+
+                            <div class="mb-5">
+                                <label for="inputPassword" class="form-label-custom">Mot de passe</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            </div>
+                            
+                            {# 
+                                Le token de sécurité csrf est obligatoire pour tous les formulaires POST dans Symfony.
+                                L'input caché s'appelle "_csrf_token" par défaut.
+                            #}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            {# Optionnel : se souvenir de moi #}
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                                </label>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button class="btn btn-warning w-75 fw-bold" type="submit">
+                                    Se connecter
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a href="#" class="text-secondary small text-decoration-none">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3 text-white">
+                    Pas encore de compte ? <a href="#" class="text-success fw-bold text-decoration-none">Créer un compte</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

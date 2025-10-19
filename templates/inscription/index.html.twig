@@ -1,0 +1,69 @@
+{# templates/inscription/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Aether core{% endblock %}
+
+{% block body %}
+    <div class="container my-5 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+
+                <div class="card home-card shadow-lg p-4 w-100">
+                    <div class="card-body">
+                        <h1 class="card-title text-center text-success mb-4 fw-bold">Créer un Compte</h1>
+                        
+                        {# 
+                            ⚠️ IMPORTANT : Une fois le formulaire Symfony créé (avec make:form), 
+                            vous remplacerez ce bloc par : {{ form_start(registrationForm) }} et {{ form_row(...) }}
+                        #}
+                        <form method="post" action="{{ path('app_inscription') }}"> 
+                            
+                            <div class="mb-3">
+                                <label for="inputEmail" class="form-label-custom">Adresse Email</label>
+                                <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="email@exemple.com" required autofocus>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="inputUsername" class="form-label-custom">Nom d'utilisateur</label>
+                                <input type="text" name="username" id="inputUsername" class="form-control" autocomplete="username" placeholder="Pseudo" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label-custom">Mot de passe</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="new-password" required>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <label for="inputConfirmPassword" class="form-label-custom">Confirmer Mot de passe</label>
+                                <input type="password" name="confirm_password" id="inputConfirmPassword" class="form-control" autocomplete="new-password" required>
+                            </div>
+                            
+                            {# Checkbox de consentement, souvent obligatoire #}
+                            <div class="checkbox mb-4 text-center">
+                                <label class="small">
+                                    <input type="checkbox" name="agreeTerms" required> 
+                                    J'accepte les 
+                                    {# 🚀 CORRECTION APPLIQUÉE ICI 🚀 #}
+                                    <a href="{{ path('app_cgu') }}" class="text-primary text-decoration-none" target="_blank">conditions d'utilisation</a>.
+                                </label>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success w-75 fw-bold" type="submit">
+                                    S'inscrire
+                                </button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
+                <div class="text-center mt-3 text-white">
+                    Déjà un compte ? <a href="{{ path('app_connexion') }}" class="text-warning fw-bold text-decoration-none">Se connecter</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

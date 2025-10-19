@@ -1,0 +1,38 @@
+{# templates/legal/cgu.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions d'utilisation - Aether core{% endblock %}
+
+{% block body %}
+    <div class="container-fluid my-5 pb-5">
+        <div class="row justify-content-center">
+            
+            {# Col-lg-8 donne déjà une bonne largeur sans aller au maximum #}
+            <div class="col-12 col-lg-8 col-xl-7"> 
+
+                {# J'ai rétabli le titre principal en texte noir pour un meilleur contraste #}
+                <h1 class="display-5 fw-bold text-center mb-5 text-dark">Conditions Générales d'Utilisation (CGU)</h1>
+
+                {# 🚀 MODIFICATION 1: p-5 devient p-4 pour réduire le padding interne 🚀 #}
+                <div class="card home-card shadow-lg p-4 w-100">
+                    <div class="card-body text-start"> {# 🚀 MODIFICATION 2: text-start force l'alignement à gauche 🚀 #}
+                    
+                        <h2 class="text-primary mb-3">1. Objet</h2>
+                        <p class="text-secondary">Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités et conditions dans lesquelles Aether Core fournit ses services.</p>
+
+                        <h2 class="text-primary mt-4 mb-3">2. Acceptation</h2>
+                        <p class="text-secondary">En cochant la case d'acceptation lors de votre inscription, vous reconnaissez avoir lu et accepté sans réserve les présentes CGU.</p>
+
+                        <h2 class="text-primary mt-4 mb-3">3. Propriété Intellectuelle</h2>
+                        <p class="text-secondary">L'intégralité du contenu du site, incluant les logos, textes et images, est la propriété exclusive d'Aether Core.</p>
+                        
+                        {# ... Reste de votre contenu ... #}
+                        
+                        <p class="mt-5 text-center small text-muted">Dernière mise à jour : Octobre 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,35 +1,41 @@
-<header class="">
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="d-flex"></div>
-        <div class="d-flex flex-column align-items-center">
-            <div class="logo001 mb-3">
-                <img src="{{asset("image/Aether core logo.png")}}" alt="logo">
-            </div>
-            <div class="fs-2 d-flex gap-3 align-items-center">
+<header class="py-3 px-3 shadow-sm bg-white">
+    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
+        
+        {# 1. LOGO à GAUCHE et Nom de Marque #}
+        <div class="d-flex align-items-center">
+            <a href="{{ path('app_accueil') }}" class="d-flex align-items-center text-decoration-none text-dark">
+                <div class="logo001 me-3">
+                    <img src="{{ asset('image/Aether core logo.png') }}" alt="logo" style="max-height: 80px;">
+                </div>
+                <span class="fs-4 fw-bold d-none d-md-inline">Aether Core</span> 
+            </a>
+        </div>
+        
+        {# 2. MENU DE NAVIGATION (Centré) - utilise mx-auto pour centrer #}
+        <div class="d-flex justify-content-center mx-auto"> 
+            <div class="fs-4 d-flex gap-4 align-items-center fw-medium">
                 
-                {# Remplacer les <p> par des <a> et utiliser la fonction path() #}
-                <a href="{{ path('app_accueil') }}" class="acceuil mb-0 text-decoration-none text-dark">
+                <a href="{{ path('app_accueil') }}" class="text-dark text-decoration-none">
                     Accueil
                 </a>
                 
-                <a href="{{ path('app_hardware') }}" class="hardware mb-0 text-decoration-none text-dark">
-                    - Hardware
+                <a href="{{ path('app_hardware') }}" class="text-dark text-decoration-none">
+                    Hardware
                 </a>
                 
-                <a href="{{ path('app_jeux') }}" class="jeux mb-0 text-decoration-none text-dark">
-                    - Jeux
+                <a href="{{ path('app_jeux') }}" class="text-dark text-decoration-none">
+                    Jeux
                 </a>
-                
             </div>
         </div>
-        <div class="google-translate-container d-flex justify-content-end align-self-start mt-3 me-3">
-            <div id="google_translate_element"></div>
-        </div> 
+        
+        {# 3. BOUTONS D'ACTION (À DROITE) - Contient maintenant seulement les boutons #}
+        <div class="d-flex gap-2 align-items-center">
+            
+            {# Les liens Contact, S'inscrire, Connexion #}
+            <a href="{{ path('app_contact') }}" class="btn btn-info btn-sm d-none d-md-inline-flex">Contact</a>
+            <a href="{{ path('app_inscription') }}" class="btn btn-success btn-sm">S'inscrire</a>
+            <a href="{{ path('app_connexion') }}" class="btn btn-warning btn-sm">Connexion</a>
+        </div>
     </div>
-    <div class="d-flex gap-2 justify-content-md-end">
-        <a href="#" class="btn btn-info">Contact</a>
-        <a href="#" class="btn btn-success">S'inscrire</a>
-        <a href="#" class="btn btn-warning ">Connexion</a>
-    </div>
-    <br><br>
 </header>
