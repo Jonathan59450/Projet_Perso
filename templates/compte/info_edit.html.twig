@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mes informations{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-4">Modifier mes informations personnelles</h1>
+        
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        <div class="card shadow">
+            <div class="card-body">
+                
+                {{ form_start(infoForm) }}
+                    
+                    {{ form_row(infoForm.username) }}
+                    {{ form_row(infoForm.email) }}
+                    {{ form_row(infoForm.no) }}
+
+                    <button type="submit" class="btn btn-primary mt-3">
+                        Enregistrer les modifications
+                    </button>
+                    
+                {{ form_end(infoForm) }}
+            </div>
+        </div>
+
+        <a href="{{ path('app_account') }}" class="btn btn-link mt-3">Retour à mon compte</a>
+    </div>
+{% endblock %}

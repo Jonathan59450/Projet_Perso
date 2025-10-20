@@ -20,8 +20,8 @@ security:
 
             # 🚀 AJOUT DE LA CONFIGURATION DE CONNEXION (FORM_LOGIN) 🚀
             form_login:
-                login_path: app_login       # Route pour afficher le formulaire de connexion (GET)
-                check_path: app_login       # Route qui traite la soumission du formulaire (POST)
+                login_path: app_connexion       # Route pour afficher le formulaire de connexion (GET)
+                check_path: app_connexion       # Route qui traite la soumission du formulaire (POST)
                 enable_csrf: true
                 # 🛠️ CORRECTION : Remplacer 'target' par 'default_target_path'
                 default_target_path: app_home # Redirection après succès. Assurez-vous que 'app_home' existe.

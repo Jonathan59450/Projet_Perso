@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SecurityController!{% endblock %}
+{# ... Votre code existant ... #}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container my-5 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                {# 💡 IMPORTANT : Assurez-vous d'avoir ces blocs pour afficher l'erreur #}
+                
+                {# Affichage de l'erreur s'il y en a une #}
+                {% if error %}
+                    <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Jonathan_PCGamer/Projet_Perso/src/Controller/SecurityController.php</code></li>
-        <li>Your template at <code>C:/Users/Jonathan_PCGamer/Projet_Perso/templates/security/index.html.twig</code></li>
-    </ul>
-</div>
+                {# Votre formulaire commence ici #}
+                <div class="card home-card shadow-lg p-4 w-100">
+                    <div class="card-body">
+                        <h1 class="card-title text-center text-warning mb-4 fw-bold">Connexion</h1>
+                        
+                        <form method="post" action="{{ path('app_connexion') }}"> 
+                            
+                            <div class="mb-4">
+                                <label for="inputEmail" class="form-label-custom">Email / Nom d'utilisateur</label>
+                                {# 💡 IMPORTANT : Utilisez last_username pour pré-remplir l'e-mail après un échec #}
+                                <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" autocomplete="email" required="" autofocus="">
+                            </div>
+
+                            <div class="mb-5">
+                                <label for="inputPassword" class="form-label-custom">Mot de passe</label>
+                                <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required="">
+                            </div>
+                            
+                            {# Jeton CSRF de sécurité #}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            {# ... Reste du formulaire ... #}
+
+                            <div class="col-12 text-center">
+                                <button class="btn btn-warning w-75 fw-bold" type="submit">
+                                    Se connecter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Profil{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-4">Modifier mon profil</h1>
+        
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="card-title">Image de profil actuelle</h5>
+                
+                {# 🚀 CORRECTION CLÉ : Définition des chemins #}
+                {% set defaultAvatarPath = 'images/profil.png' %} {# Chemin si l'image est dans public/image/profil.png #}
+                
+                {% set currentImagePath = defaultAvatarPath %}
+                
+                {% if user.profilePicture is not null %}
+                    {# Si une image est téléchargée, elle est dans public/uploads/profile #}
+                    {% set currentImagePath = 'uploads/profile/' ~ user.profilePicture %}
+                {% endif %}
+
+                <img src="{{ asset(currentImagePath) }}" 
+                     alt="Profil" 
+                     class="img-thumbnail mb-3" 
+                     style="width: 150px; height: 150px; object-fit: cover;">
+
+                <h5 class="card-title mt-4">Changer l'image</h5>
+                
+                {# Le formulaire DOIT avoir 'enctype="multipart/form-data"' pour l'upload de fichiers #}
+                {{ form_start(pictureForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                    
+                    {{ form_row(pictureForm.picture) }}
+
+                    <button type="submit" class="btn btn-primary mt-3">
+                        Enregistrer l'image
+                    </button>
+                    
+                {{ form_end(pictureForm) }}
+            </div>
+        </div>
+
+        <a href="{{ path('app_account') }}" class="btn btn-link mt-3">Retour à mon compte</a>
+    </div>
+{% endblock %}

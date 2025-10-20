@@ -36,6 +36,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $no = null;
+    
+    // Ajout du champ pour l'image de profil
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
+    // Ajout du champ pour la date d'inscription
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $registeredAt = null;
 
     public function getId(): ?int
     {
@@ -58,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     * ⚠️ CORRIGÉ : Doit retourner le champ utilisé pour l'identification (votre email)
      */
     public function getUserIdentifier(): string
     {
@@ -66,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     * ⚠️ CORRIGÉ : Doit retourner le tableau de rôles
      */
     public function getRoles(): array
     {
@@ -88,6 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see PasswordAuthenticatedUserInterface
+     * ⚠️ CORRIGÉ : Doit retourner le mot de passe haché
      */
     public function getPassword(): ?string
     {
@@ -104,7 +115,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[\Deprecated]
     public function eraseCredentials(): void
     {
-        // @deprecated, to be removed when upgrading to Symfony 8
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getUsername(): ?string
@@ -127,6 +139,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNo(string $no): static
     {
         $this->no = $no;
+
+        return $this;
+    }
+    
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): static
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+    
+    public function getRegisteredAt(): ?\DateTimeImmutable
+    {
+        return $this->registeredAt;
+    }
+
+    public function setRegisteredAt(?\DateTimeImmutable $registeredAt): static
+    {
+        $this->registeredAt = $registeredAt;
 
         return $this;
     }

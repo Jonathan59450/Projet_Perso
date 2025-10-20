@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        
+        {# Affichage des messages flash (pour les succès/erreurs après une modification) #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        <div class="row">
+            
+            <div class="col-md-4 text-center">
+                <h2>Mon Image</h2>
+                <img src="{{ asset(user.profilePicture ? 'uploads/profile/' ~ user.profilePicture : 'image/default_avatar.png') }}"
+                    alt="Image de profil" 
+                    class="img-fluid rounded-circle shadow-lg mb-3" 
+                    style="width: 150px; height: 150px; object-fit: cover;">
+                
+                {# 🚀 CORRECTION 1 : Lier à la route d'édition d'image #}
+                <a href="{{ path('app_account_picture_edit') }}" class="btn btn-warning btn-sm d-block mx-auto">
+                    Modifier l'image
+                </a>
+            </div>
+
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold text-primary">Bienvenue {{ user.username|default(user.email) }} !</h1>
+                
+                <h2 class="mt-4">Vos informations</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Nom d'utilisateur :</strong> {{ user.username|default('Non défini') }}</li>
+                    <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+                    {# Afficher le champ 'no' si vous souhaitez le rendre visible #}
+                    <li class="list-group-item"><strong>Numéro de référence :</strong> {{ user.no|default('Non défini') }}</li>
+                    <li class="list-group-item"><strong>Date d'inscription :</strong> {{ user.registeredAt|date('d/m/Y') }}</li>
+                </ul>
+                
+                <h2 class="mt-4">Actions</h2>
+                
+                {# 🚀 CORRECTION 2 : Lier à la route d'édition des infos #}
+                <a href="{{ path('app_account_info_edit') }}" class="btn btn-primary me-3">
+                    Modifier les informations
+                </a>
+                
+                {# 🚀 CORRECTION 3 : Lier à la route de changement de mot de passe #}
+                <a href="{{ path('app_account_password_edit') }}" class="btn btn-secondary">
+                    Changer de Mot de Passe
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
