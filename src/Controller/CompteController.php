@@ -4,8 +4,8 @@
 namespace App\Controller;
 
 use App\Form\ProfilePictureType;
-use App\Form\UserInfoType; // 👈 NOUVEL IMPORT
-use App\Form\PasswordChangeType; // 👈 NOUVEL IMPORT
+use App\Form\UserInfoType; 
+use App\Form\PasswordChangeType; 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,8 +76,8 @@ class CompteController extends AbstractController
             }
         }
 
-        // 🚀 CORRECTION : Utilise 'compte/profile_edit.html.twig'
-        return $this->render('compte/profile_edit.html.twig', [
+        // 🚀 Chemin de Template Correct : 'compte/photo_upload.html.twig'
+        return $this->render('compte/photo_upload.html.twig', [
             'pictureForm' => $form->createView(),
             'user' => $user,
         ]);

@@ -31,11 +31,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    // Nom d'utilisateur (peut être votre prénom pour une meilleure expérience)
     #[ORM\Column(length: 50)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $no = null;
+    // Ajout d'un champ pour le prénom
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $firstName = null;
+
+    // Ajout d'un champ pour le nom de famille
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $lastName = null;
     
     // Ajout du champ pour l'image de profil
     #[ORM\Column(length: 255, nullable: true)]
@@ -44,6 +50,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Ajout du champ pour la date d'inscription
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $registeredAt = null;
+    
+    // NOTE: La propriété $no, son getter et son setter ont été supprimés.
 
     public function getId(): ?int
     {
@@ -66,7 +74,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
-     * ⚠️ CORRIGÉ : Doit retourner le champ utilisé pour l'identification (votre email)
      */
     public function getUserIdentifier(): string
     {
@@ -75,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
-     * ⚠️ CORRIGÉ : Doit retourner le tableau de rôles
+     * @return list<string>
      */
     public function getRoles(): array
     {
@@ -98,7 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see PasswordAuthenticatedUserInterface
-     * ⚠️ CORRIGÉ : Doit retourner le mot de passe haché
      */
     public function getPassword(): ?string
     {
@@ -112,7 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[\Deprecated]
+    /**
+     * @see UserInterface
+     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -131,18 +139,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNo(): ?string
-    {
-        return $this->no;
-    }
-
-    public function setNo(string $no): static
-    {
-        $this->no = $no;
-
-        return $this;
-    }
-    
     public function getProfilePicture(): ?string
     {
         return $this->profilePicture;
@@ -155,6 +151,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
     
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+    
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
     public function getRegisteredAt(): ?\DateTimeImmutable
     {
         return $this->registeredAt;

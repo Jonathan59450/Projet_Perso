@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Image de Profil{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-4 text-primary">Modifier mon image de profil</h1>
+        
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <div class="card shadow-lg p-4">
+            <h5 class="card-title mb-4 border-bottom pb-2">Aperçu actuel</h5>
+            
+            {# Logique d'affichage de l'image #}
+            {% set defaultAvatarPath = 'image/default_avatar.png' %} 
+            {% set currentImagePath = defaultAvatarPath %}
+            
+            {% if user.profilePicture is not null %}
+                {# L'image téléchargée est stockée dans public/uploads/profile #}
+                {% set currentImagePath = 'uploads/profile/' ~ user.profilePicture %}
+            {% endif %}
+
+            <img src="{{ asset(currentImagePath) }}" 
+                 alt="Profil" 
+                 class="img-thumbnail mb-4 rounded-circle border-primary" 
+                 style="width: 180px; height: 180px; object-fit: cover; border-width: 3px !important;">
+
+            <h5 class="card-title mt-4 mb-3 border-bottom pb-2">Téléverser une nouvelle image</h5>
+            
+            {# Formulaire d'upload d'image #}
+            {{ form_start(pictureForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                
+                {{ form_row(pictureForm.picture, {'label': 'Sélectionner le fichier (Max 2Mo, JPG/PNG)'}) }}
+
+                <button type="submit" class="btn btn-primary mt-4 w-100">
+                    <i class="bi bi-upload"></i> Enregistrer la nouvelle image
+                </button>
+                
+            {{ form_end(pictureForm) }}
+        </div>
+
+        <a href="{{ path('app_account') }}" class="btn btn-outline-secondary mt-4">
+            <i class="bi bi-arrow-left"></i> Retour à mon compte
+        </a>
+    </div>
+{% endblock %}

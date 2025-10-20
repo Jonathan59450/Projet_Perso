@@ -46,8 +46,6 @@ class InscriptionController extends AbstractController
             // Définit le rôle par défaut pour le nouvel utilisateur
             $user->setRoles(['ROLE_USER']);
             
-            // La méthode setNo() attend une string, nous utilisons donc 'DefaultValue'.
-            $user->setNo('DefaultValue'); 
             
             // AJOUT DU BLOC TRY...CATCH POUR ÉVITER LE CRASH 502/TCP
             try {
@@ -55,11 +53,11 @@ class InscriptionController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
                 
-                // Ajoute un message flash et redirige vers la page de connexion
-                $this->addFlash('success', 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.');
+                // Modification de la redirection : vers la page d'accueil ('app_home')
+                $this->addFlash('success', 'Votre compte a été créé avec succès ! Veuillez vous connecter pour commencer.');
                 
-                // 🚀 CORRECTION : Redirige vers la nouvelle route de connexion (app_login) 🚀
-                return $this->redirectToRoute('app_login');
+                // 🚀 REDIRECTION VERS LA PAGE D'ACCUEIL APRÈS SUCCÈS 🚀
+                return $this->redirectToRoute('app_accueil'); // <-- CORRIGÉ POUR REDIRIGER VERS L'ACCUEIL
 
             } catch (UniqueConstraintViolationException $e) {
                 // Gère l'erreur spécifique si l'email ou le username existe déjà

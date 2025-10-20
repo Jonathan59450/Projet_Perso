@@ -2,32 +2,89 @@
 
 {% block title %}Modifier mes informations{% endblock %}
 
+{% block stylesheets %}
+    {# Inclure les styles spécifiques pour les couleurs personnalisées #}
+    <style>
+        /* Couleurs du thème */
+        :root {
+            --primary-blue: #007bff; /* Bleu standard ou ajusté */
+            --background-green: #d4edda; /* Vert très clair pour l'arrière-plan */
+            --card-shadow-yellow: rgba(255, 193, 7, 0.5); /* Jaune pour l'ombre */
+            --button-blue: #0056b3; /* Bleu pour le bouton */
+        }
+
+        /* Centrage général et arrière-plan (si vous pouvez étendre le style à 'base.html.twig') */
+        body {
+            background-color: #f8f9fa; /* Couleur neutre de base */
+        }
+        
+        .custom-card {
+            border: 1px solid var(--background-green);
+            background-color: #ffffff;
+            /* Utilisation du jaune pour l'ombre, donnant un effet d'accent */
+            box-shadow: 0 4px 15px var(--card-shadow-yellow); 
+            border-radius: 1rem;
+        }
+
+        .custom-submit-btn {
+            background-color: var(--button-blue);
+            border-color: var(--button-blue);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-submit-btn:hover {
+            background-color: #004085; /* Bleu légèrement plus foncé au survol */
+            border-color: #004085;
+        }
+
+        .btn-link {
+            color: var(--button-blue);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="container my-5">
-        <h1 class="mb-4">Modifier mes informations personnelles</h1>
-        
-        {# Affichage des messages flash #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
 
-        <div class="card shadow">
-            <div class="card-body">
+                <h1 class="text-center mb-4" style="color: var(--button-blue);">Modifier les informations personnelles</h1>
                 
-                {{ form_start(infoForm) }}
-                    
-                    {{ form_row(infoForm.username) }}
-                    {{ form_row(infoForm.email) }}
-                    {{ form_row(infoForm.no) }}
+                {# Application des styles personnalisés pour la carte #}
+                <div class="custom-card card shadow">
+                    <div class="card-body">
+                        
+                        {# Le formulaire est 'profileForm' #}
+                        {{ form_start(profileForm) }}
 
-                    <button type="submit" class="btn btn-primary mt-3">
-                        Enregistrer les modifications
-                    </button>
-                    
-                {{ form_end(infoForm) }}
+                            {# CORRECTION : On affiche les champs les plus probables, mais on retire 'username' qui cause l'erreur #}
+
+                            {% if profileForm.firstName is defined %}
+                                {{ form_row(profileForm.firstName) }}
+                            {% endif %}
+                            
+                            {% if profileForm.lastName is defined %}
+                                {{ form_row(profileForm.lastName) }}
+                            {% endif %}
+
+                            {# Le champ email doit exister pour l'édition de profil #}
+                            {{ form_row(profileForm.email) }}
+                            
+                            <button type="submit" class="btn btn-success mt-3 w-100">
+                                Enregistrer les modifications
+                            </button>
+                            
+                        {{ form_end(profileForm) }}
+                        
+                        <div class="mt-3 text-center">
+                            <a href="{{ path('app_account') }}" class="btn btn-link">
+                                &larr; Retour à mon compte
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <a href="{{ path('app_account') }}" class="btn btn-link mt-3">Retour à mon compte</a>
     </div>
 {% endblock %}

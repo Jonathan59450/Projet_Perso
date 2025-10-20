@@ -2,52 +2,197 @@
 
 {% block title %}Mon Compte{% endblock %}
 
-{% block body %}
-    <div class="container my-5">
+{% block stylesheets %}
+    {# Inclure les styles spécifiques pour les couleurs personnalisées #}
+    <style>
+        /* FIX GÉNÉRAL : Empêche la barre de défilement horizontale due à 100vw si le body a des paddings/marges non standard */
+        body {
+            overflow-x: hidden;
+        }
         
-        {# Affichage des messages flash (pour les succès/erreurs après une modification) #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
+        /* Couleurs du thème */
+        :root {
+            --primary-blue: #007bff; /* Bleu standard */
+            --background-green: #d4edda; /* Vert très clair pour l'arrière-plan */
+            --card-shadow-yellow: rgba(255, 193, 7, 0.5); /* Jaune pour l'ombre */
+            --button-blue: #0056b3; /* Bleu foncé pour le bouton principal */
+            --header-blue: #007bff; /* Bleu pour l'en-tête de la carte */
+            --accent-yellow: #ffc107; /* Jaune pour le bouton d'action secondaire/alerte */
+            --accent-green: #28a745; /* Vert pour le succès */
+        }
 
-        <div class="row">
-            
-            <div class="col-md-4 text-center">
-                <h2>Mon Image</h2>
-                <img src="{{ asset(user.profilePicture ? 'uploads/profile/' ~ user.profilePicture : 'image/default_avatar.png') }}"
-                    alt="Image de profil" 
-                    class="img-fluid rounded-circle shadow-lg mb-3" 
-                    style="width: 150px; height: 150px; object-fit: cover;">
-                
-                {# 🚀 CORRECTION 1 : Lier à la route d'édition d'image #}
-                <a href="{{ path('app_account_picture_edit') }}" class="btn btn-warning btn-sm d-block mx-auto">
-                    Modifier l'image
-                </a>
-            </div>
+        /* Styles de la carte et du centrage */
+        .custom-card {
+            border: 1px solid var(--background-green);
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px var(--card-shadow-yellow); 
+            border-radius: 1rem;
+        }
 
-            <div class="col-md-8">
-                <h1 class="display-5 fw-bold text-primary">Bienvenue {{ user.username|default(user.email) }} !</h1>
+        /* En-tête de la carte (Bleu) */
+        .card-header-blue {
+            background-color: var(--header-blue) !important;
+            color: white;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            font-weight: bold;
+        }
+
+        /* Bouton Modifier (Bleu) */
+        .btn-primary-custom {
+            background-color: var(--button-blue);
+            border-color: var(--button-blue);
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            background-color: #004085; 
+            border-color: #004085;
+        }
+
+        /* Bouton Changer MDP (Jaune) */
+        .btn-warning-custom {
+            background-color: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+            color: #212529; /* Texte sombre sur fond jaune */
+        }
+        .btn-warning-custom:hover {
+            background-color: #e0a800; 
+            border-color: #e0a800;
+        }
+        
+        /* Messages Flash (Vert pour succès) */
+        .alert-success {
+            background-color: var(--background-green);
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        /* Styles de l'image de profil */
+        .profile-picture {
+            border: 3px solid var(--button-blue) !important;
+        }
+
+        /* ------------------------------------------------------------------- */
+        /* CENTRAGE MAX-WIDTH FIXE (pour les messages flash et les boutons) */
+        /* ------------------------------------------------------------------- */
+        .centered-block-max {
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Styles pour les titres (dt) dans la liste de définition */
+        .detail-dt {
+            font-weight: 600;
+        }
+        
+        /* ------------------------------------------------------------------- */
+        /* CORRECTION FINALE : Force la pleine largeur et centre en ignorant la contrainte du body */
+        /* ------------------------------------------------------------------- */
+        .full-screen-width {
+            width: 100vw; 
+            /* Cette formule centre un élément à pleine largeur (100vw) dans un conteneur centré (body 80% margin auto) */
+            margin-left: calc(50% - 50vw);
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        /* Nouveau style pour forcer la carte à avoir une largeur maximale et à se centrer horizontalement */
+        .card-responsive-centered {
+            max-width: 450px; /* Limite la largeur de la carte */
+            width: 100%; /* S'assure qu'elle prend toute la place disponible dans la limite */
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid my-5 full-screen-width">
+        <div class="row justify-content-center">
+            <div class="col-12">
+
+                <h1 class="text-center mb-4" style="color: var(--header-blue);">Bienvenue {{ user.firstName }} !</h1>
                 
-                <h2 class="mt-4">Vos informations</h2>
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Nom d'utilisateur :</strong> {{ user.username|default('Non défini') }}</li>
-                    <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
-                    {# Afficher le champ 'no' si vous souhaitez le rendre visible #}
-                    <li class="list-group-item"><strong>Numéro de référence :</strong> {{ user.no|default('Non défini') }}</li>
-                    <li class="list-group-item"><strong>Date d'inscription :</strong> {{ user.registeredAt|date('d/m/Y') }}</li>
-                </ul>
-                
-                <h2 class="mt-4">Actions</h2>
-                
-                {# 🚀 CORRECTION 2 : Lier à la route d'édition des infos #}
-                <a href="{{ path('app_account_info_edit') }}" class="btn btn-primary me-3">
-                    Modifier les informations
-                </a>
-                
-                {# 🚀 CORRECTION 3 : Lier à la route de changement de mot de passe #}
-                <a href="{{ path('app_account_password_edit') }}" class="btn btn-secondary">
-                    Changer de Mot de Passe
-                </a>
+                {# Affichage des messages flash (Succès, Erreur) - Centré avec max-width #}
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success text-center centered-block-max">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger text-center centered-block-max">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {# *** CORRECTION ICI : Suppression des classes position-absolute et ajout de card-responsive-centered *** #}
+                <div class="custom-card card shadow-sm p-3 card-responsive-centered mt-4 w-75 p-3">
+                    {# En-tête personnalisé en bleu #}
+                    <div class="card-header card-header-blue text-center text-light">
+                        Vos Informations Personnelles
+                    </div>
+                    <div class="card-body">
+                        
+                        {# ------------------------------------------------ #}
+                        {# ZONE DE L'IMAGE DE PROFIL (CENTRÉE) #}
+                        {# ------------------------------------------------ #}
+                        <div class="d-flex flex-column align-items-center mb-4">
+                            {% if user.profilePicture %}
+                                <img src="{{ asset('uploads/profile/' ~ user.profilePicture) }}" alt="Photo de profil" 
+                                    class="rounded-circle border profile-picture" 
+                                    style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center profile-picture" 
+                                    style="width: 150px; height: 150px; font-size: 2rem; color: var(--button-blue);">
+                                    {{ user.firstName[0]|default('U') }}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mt-3">
+                                <a href="{{ path('app_account_picture_edit') }}" class="btn btn-sm btn-outline-secondary">Modifier l'image</a>
+                            </div>
+                        </div>
+                        
+                        {# ------------------------------------------------ #}
+                        {# AFFICHAGE DES DÉTAILS - Structure Bootstrap standard (dl.row) #}
+                        {# ------------------------------------------------ #}
+                        <div class="mb-4">
+                            <dl class="row mb-0">
+                                {# Utilisation des classes Bootstrap col-sm-5/col-sm-7 et text-end pour l'alignement #}
+                                <dt class="col-sm-5 text-end detail-dt">Prénom :</dt>
+                                <dd class="col-sm-7">{{ user.firstName }}</dd>
+
+                                <dt class="col-sm-5 text-end detail-dt">Nom :</dt>
+                                <dd class="col-sm-7">{{ user.lastName }}</dd>
+
+                                <dt class="col-sm-5 text-end detail-dt">Email :</dt>
+                                <dd class="col-sm-7">{{ user.email }}</dd>
+                                
+                                <dt class="col-sm-5 text-end detail-dt">Rôle(s) :</dt>
+                                <dd class="col-sm-7">{{ user.roles|join(', ')|replace({'ROLE_USER': 'Utilisateur'}) }}</dd>
+                            </dl>
+                        </div>
+                        
+                        {# ------------------------------------------------ #}
+                        {# BOUTONS D'ACTIONS (CENTRÉS avec max-width 450px) #}
+                        {# ------------------------------------------------ #}
+                        <div class="d-grid gap-2 mt-4 centered-block-max">
+                            <a href="{{ path('app_account_info_edit') }}" class="btn btn-primary-custom">
+                                Modifier les informations
+                            </a>
+                            <a href="{{ path('app_account_password_edit') }}" class="btn btn-warning-custom">
+                                Changer le mot de passe
+                            </a>
+                            {# Le bouton Déconnexion utilise le style Bootstrap "danger" (rouge) standard #}
+                            <a href="{{ path('app_logout') }}" class="btn btn-danger mt-3">
+                                Déconnexion
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
