@@ -39,7 +39,7 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             
             {# UTILISATEUR CONNECTÉ : "Mon Compte" et "Déconnexion" #}
-            <a href="{{ path('app_profile_edit') }}" class="btn btn-warning btn-sm d-none d-md-inline-flex ">
+            <a href="{{ path('app_account') }}" class="btn btn-warning btn-sm d-none d-md-inline-flex ">
                 Mon Compte
             </a>
             <a href="{{ path('app_logout') }}" class="btn btn-success btn-sm d-none d-md-inline-flex text-dark">
